@@ -13,7 +13,12 @@ CSC340GroupProject
 > Possible questions to answer here:
 > What is the motivation for the app?
 > What are the goals of the app?
+> The game is to provide a fun and simple rpg interface to play 
+> through mazes and fight against monsters.
+> 
 > What problem will the app solve?
+> The app solves boredom and 
+>
 > What burning need do people have that the app will fulfill?
 > What form will the app take to fulfill its goals?
 > What sorts of features will the app have?
