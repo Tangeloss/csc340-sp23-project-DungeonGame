@@ -8,7 +8,6 @@ public class Player extends Creature{
         this.hp = maxHp;
         this.atk = atk;
         this.def = def;
-        this.spd = spd;
     }
 
 
