@@ -1,16 +1,20 @@
 package Main;
+import Creatures.Player;
+
 import java.util.Scanner;
 
 public class GameLogic {
 
     static Scanner scanner = new Scanner(System.in);
 
+    static Player player;
+
     //method to get user input from console
-    public static int readInt(String prompt, int userChoices){
+    public static int readChoice(String prompt, int userChoices){
         int input = 0;
 
         do{
-            System.out.println(prompt);
+            System.out.print(prompt);
             try{
                 input = Integer.parseInt(scanner.next());
                 if (input < 0 || input > userChoices){
@@ -34,7 +38,7 @@ public class GameLogic {
     }
 
     //method to print separator with length n
-    public static void printSeparator(int n){
+    public static void printSpace(int n){
         for(int i = 0; i < n; i++)
             System.out.print("-");
         System.out.println();
@@ -42,15 +46,87 @@ public class GameLogic {
 
     //Method to print a heading
     public static void printHeading(String title){
-        printSeparator(30);
+        printSpace(30);
         System.out.println(title);
-        printSeparator(30);
+        printSpace(30);
     }
 
     //method to stop the game until the user enters something
     public static void anythingToContinue(){
         System.out.println("\nEnter anything to continue...");
         scanner.next();
+    }
+
+    //start game
+    public static void startGame(){
+        boolean named = false;
+        String name;
+        //print title screen
+        clearConsole();
+        System.out.println("DUNGEON GAME");
+        System.out.println("                                                                                                                                                                                                        \n" +
+                "                                                                                                                                                                                                        \n" +
+                "                                               .#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,                                       ./@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                                                \n" +
+                "                                         %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.                        *                   /@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                                         \n" +
+                "                                    &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                        .&@@@% /@*                   .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/                                    \n" +
+                "                                &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.                           ,,  .@@@@@@                    #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/                                \n" +
+                "                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(                                /@@@@@@@@@                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             \n" +
+                "                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                              #@@@@@@@@@@@@@                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&                          \n" +
+                "                       &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             #@@@@@&   ,&@@@@@                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,                       \n" +
+                "                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/                            %@@@@@          @%                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                     \n" +
+                "                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                            @@@@@.                                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                   \n" +
+                "                 @@@%.        .%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                           #@@@@@,                               (@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(         *&@@*                 \n" +
+                "               ,.                  .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                          @@@@@@@                              ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                   (                \n" +
+                "                                      %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(                       .@@@@@@@%                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.                                      \n" +
+                "                                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&                    &@@@@@@@@@/                         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#                                        \n" +
+                "                                         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.              @@@@@@@@@@@@@*   (%               (@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(                                         \n" +
+                "                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                          \n" +
+                "                                          @@#         (@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&*        ,&@@                                          \n" +
+                "                                                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                                                           \n" +
+                "                                                             %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.  %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                                              \n" +
+                "                                                               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@&@@@@@@@@@@@@@@@                                                               \n" +
+                "                                                                @@@@@.              @@@@@@@@@@@@@@@@@@@@@   @@@@                  #@@@@@                                                                \n" +
+                "                                                                &(                     ,@@@@@@@@@@@@@@@@@  &*                         @,                                                                \n" +
+                "                                                                                          @@@@@@@@@@@@@@                                                                                                \n" +
+                "                                                                                           (@@@@@@@@@@@%                                                                                                \n" +
+                "                                                                                            (@@@@@@@@@@                                                                                                 \n" +
+                "                                                                                             @@@@@@@@@                                                                                                  \n" +
+                "                                                                                             @@@@@@@@.                                                                                                  \n" +
+                "                                                                                             @@@@@@@,                                                                                                   \n" +
+                "                                                                                            @@@@@@@/                                                                                                    \n" +
+                "                                                                                           /@@@@@@#                                                                                                     \n" +
+                "                                                                                           @@@@@@@                                                                                                      \n" +
+                "                                                                                           @@@@@@#                                                                                                      \n" +
+                "                                                                                           %@@@@@&                               @&                                                                     \n" +
+                "                                                                                            @@@@@@                            @@@@                                                                      \n" +
+                "                                                                                             @@@@@@.                      /(/,.@@                                                                       \n" +
+                "                                                                                              %@@@@@@                        @@%                                                                        \n" +
+                "                                                                                                %@@@@@@(                  /@@&                                                                          \n" +
+                "                                                                                                   @@@@@@@@&*        *&@@@@                                                                             \n" +
+                "                                                                                                       /@@@@@@@@@@@@@@/                                                                                 \n" +
+                "                                                                                                                                                                                                        \n" +
+                "                                                                                                                                                                                                        \n" +
+                "                                                                                                                                                                                                        ");
+        anythingToContinue();
+
+        //getting player name
+        do{
+            clearConsole();
+            printHeading("What is your name?");
+            name = scanner.next();
+            clearConsole();
+            printHeading("Your name is " + name + ".\nIs that correct?");
+            System.out.println("(1) Yes!\n(2) No, I want to change my name.");
+            int input = readChoice("-> ", 2);
+            if(input == 1)
+                named = true;
+        } while (!named);
+
+        //create new player object with name
+        player = new Player(name, 100);
+
+        //start main game loop
+        //gameLoop();
     }
 
 }

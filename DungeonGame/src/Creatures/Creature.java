@@ -1,9 +1,16 @@
 package Creatures;
-abstract class Creature {
+public abstract class Creature {
 
-    String Name;
-    int hp;
-    int maxHp;
-    int atk;
-    int def;
+    //Attributes all creatures have
+    public String name;
+    public int hp, maxHp;
+    public abstract int atk();
+    public abstract int def();
+
+    //constructor for creature
+    public Creature(String name, int maxHp){
+        this.name = name;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+    }
 }
