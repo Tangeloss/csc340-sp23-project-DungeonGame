@@ -9,6 +9,12 @@ public class GameLogic {
 
     static Player player;
 
+    public static boolean isRunning;
+
+    //Story Elements, dungeon location
+    public static int place = 0;
+
+
     //method to get user input from console
     public static int readChoice(String prompt, int userChoices){
         int input = 0;
@@ -38,7 +44,7 @@ public class GameLogic {
     }
 
     //method to print separator with length n
-    public static void printSpace(int n){
+    public static void printSeperator(int n){
         for(int i = 0; i < n; i++)
             System.out.print("-");
         System.out.println();
@@ -46,9 +52,9 @@ public class GameLogic {
 
     //Method to print a heading
     public static void printHeading(String title){
-        printSpace(30);
+        printSeperator(30);
         System.out.println(title);
-        printSpace(30);
+        printSeperator(30);
     }
 
     //method to stop the game until the user enters something
@@ -113,20 +119,70 @@ public class GameLogic {
         do{
             clearConsole();
             printHeading("What is your name?");
-            name = scanner.next();
-            clearConsole();
-            printHeading("Your name is " + name + ".\nIs that correct?");
-            System.out.println("(1) Yes!\n(2) No, I want to change my name.");
-            int input = readChoice("-> ", 2);
-            if(input == 1)
-                named = true;
+            name = scanner.nextLine();
+                if(name.isBlank())
+                    continue;
+                else {
+                    clearConsole();
+                    printHeading("Your name is " + name + ".\nIs that correct?");
+                    System.out.println("(1) Yes!\n(2) No, I want to change my name.");
+                    int input = readChoice("-> ", 2);
+                    if (input == 1)
+                        named = true;
+                }
         } while (!named);
+
+        //print the story's intro
+        Story.printIntro();
 
         //create new player object with name
         player = new Player(name, 100);
 
+        //setting the game to the running condition so the game loop can continue
+        isRunning = true;
+
         //start main game loop
-        //gameLoop();
+        gameLoop();
     }
 
+    //method to continue the game
+    public static void continueJourney(){
+
+    }
+
+    //printing character info
+    public static void characterInfo(){
+        clearConsole();
+        printHeading("CHARACTER INFO");
+        System.out.println(player.name + "\tHP: " + player.getHp() + "/" + player.maxHp);
+        System.out.println("Health Potions: " + player.getNumPotions());
+        printSeperator(20);
+
+        anythingToContinue();
+    }
+
+    //printing the main menu
+    public static void printMenu(){
+        clearConsole();
+        printHeading("MENU");
+        System.out.println("Choose an action:");
+        printSeperator(20);
+        System.out.println("(1) Continue on your adventure");
+        System.out.println("(2) Character Info");
+        System.out.println("(3) Save and Quit");
+    }
+
+    public static void gameLoop(){
+        while(isRunning == true){
+            printMenu();
+            int input = readChoice("-> ", 3);
+            if(input == 1)
+                continueJourney();
+            else if (input == 2)
+                characterInfo();
+            else if (input == 3)
+                isRunning = false;
+        }
+    }
 }
+
