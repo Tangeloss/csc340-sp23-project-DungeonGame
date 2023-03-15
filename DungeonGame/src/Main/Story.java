@@ -24,7 +24,6 @@ public class Story {
 
     public static void deathScreen(){
         GameLogic.clearConsole();
-        GameLogic.printSeperator(30);
         System.out.println("                                                                                                                                           \n" +
                 "                                                                    *&&&&&&&&&&&&&*                                                                   \n" +
                 "                                                              %&&&&&&&&&&&&&&&&&&&&&&&&&#                                                             \n" +
@@ -68,9 +67,8 @@ public class Story {
                 "                                        &&&&&&&&&&                                                   &&&&&&&&&&                                       \n" +
                 "                                          &&&&&&                                                       &&&&&&                                         \n" +
                 "                                                                                                                                                      ");
-        GameLogic.printSeperator(30);
         System.out.println("Well, that was it for you, hero. Hopes and dreams can only carry you so far with that many" +
-                "vital stab wounds");
+                " vital stab wounds");
         System.out.println("Looks like it's back to the drawing board for you. Or, you know, the afterlife. Whichever.");
         System.out.println("On the bright side, at least you won't have to deal with those terrible skeleton puns " +
                 "anymore.");
@@ -89,8 +87,8 @@ public class Story {
                 "terrible puns, but alive none-the-less");
         System.out.println("You survived the horrors of the dungeon and are victorious. " +
                 "Now all that's left to do is write a bestselling memoir about your adventures and rake " +
-                "in the profits.\n Hey, being a hero is expensive.");
-        System.out.println("So, you step towards the sun setting on the horizon, but you'll never forget the " +
+                "in the profits.\nHey, being a hero is expensive.");
+        System.out.println("So, you step towards the setting sun on the horizon, but you'll never forget the " +
                 "terrible puns and cheesy one-liners that got you here. Or maybe you will. We don't judge.");
         GameLogic.printHeading("THE END");
     }
