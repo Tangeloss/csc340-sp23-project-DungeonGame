@@ -8,7 +8,7 @@ public class Story {
         System.out.println("STORY");
         GameLogic.printSeperator(30);
         System.out.println("You find yourself standing at the entrance of a dark and ominous dungeon.");
-        System.out.println("The stench of moldy stone and the sound of scurrying rats fill your nostrils and ears.");
+        System.out.println("The stench of moldy stone fills your nostrils and you hear the sound of scurrying rats.");
         System.out.println("You've been told that treasure and glory lie within, but why would anyone in their right " +
                 "mind venture into such a foreboding place?");
         System.out.println("Well, maybe it's because you're broke and in desperate need of some coin.");
@@ -85,12 +85,12 @@ public class Story {
         System.out.println("VICTORY");
         GameLogic.printSeperator(30);
         GameLogic.printSeperator(30);
-        System.out.println("And just like that, the hero emerged on the other side. Very scathed, traumatized by " +
+        System.out.println("And just like that, you emerge on the other side. Very scathed, traumatized by " +
                 "terrible puns, but alive none-the-less");
-        System.out.println("You survived the horrors of the dungeon and emerged victorious. " +
+        System.out.println("You survived the horrors of the dungeon and are victorious. " +
                 "Now all that's left to do is write a bestselling memoir about your adventures and rake " +
-                "in the profits. Hey, being a hero is expensive.");
-        System.out.println("So, you step towards the sun, setting on the horizon, but you'll never forget the " +
+                "in the profits.\n Hey, being a hero is expensive.");
+        System.out.println("So, you step towards the sun setting on the horizon, but you'll never forget the " +
                 "terrible puns and cheesy one-liners that got you here. Or maybe you will. We don't judge.");
         GameLogic.printHeading("THE END");
     }
