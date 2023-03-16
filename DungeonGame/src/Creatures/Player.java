@@ -2,6 +2,7 @@ package Creatures;
 
 public class Player extends Creature{
 
+    private boolean isAlive;
     private int numPotions;
 
     public Player(String name, int maxHp){
