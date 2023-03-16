@@ -165,6 +165,7 @@ public class GameLogic {
         printSeperator(20);
         System.out.println("(1) Continue on your adventure");
         System.out.println("(2) Character Info");
+        //TODO: if userTag is 'D', if userTag 'U'
         System.out.println("(3) Save and Quit");
     }
 
@@ -178,6 +179,8 @@ public class GameLogic {
                 characterInfo();
             else if (input == 3)
                 isRunning = false;
+                //TODO: If user tag is 'D' and isRunning == false
+                //if User.Tag = 'D' foo
         }
     }
 }
