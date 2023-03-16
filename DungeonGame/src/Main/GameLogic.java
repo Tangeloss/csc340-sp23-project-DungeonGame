@@ -1,4 +1,5 @@
 package Main;
+import Creatures.Monster;
 import Creatures.Player;
 
 import java.util.Scanner;
@@ -143,7 +144,7 @@ public class GameLogic {
 
     //method to continue the game
     public static void continueJourney(){
-
+        createBattle();
     }
 
     //printing character info
@@ -155,6 +156,16 @@ public class GameLogic {
         printSeperator(20);
 
         anythingToContinue();
+    }
+
+    //creating random battle
+    public static void createBattle(){
+        clearConsole();
+        printHeading("You've encountered an evil creature! You'll have to fight it!");
+        anythingToContinue();
+        //creating new enemy
+        new Combat(player, new Monster("John", 20));
+
     }
 
     //printing the main menu

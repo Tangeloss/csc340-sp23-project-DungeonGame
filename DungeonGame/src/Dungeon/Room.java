@@ -5,6 +5,7 @@ public class Room {
     public int id;
     public boolean playerHere;
     public boolean monsterHere;
+    public String description;
 
     public boolean isPlayerHere() {
         return playerHere;

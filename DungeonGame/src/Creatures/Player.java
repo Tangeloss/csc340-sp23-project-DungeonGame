@@ -1,5 +1,7 @@
 package Creatures;
 
+import Main.GameLogic;
+
 public class Player extends Creature{
 
     private boolean isAlive;
@@ -11,18 +13,26 @@ public class Player extends Creature{
 
     @Override
     public int atk(){
-
-        return 0;
+        return (int)Math.floor((Math.random()* (25 - 15 + 1) + 15));
     }
     @Override
     public int def(){
 
-        return 0;
+        return (int)Math.floor(Math.random()* (25 - 15 + 1) + 5);
     }
 
     public void drinkPot(){
-        setNumPotions(numPotions-1);
-        setHpMax();
+        GameLogic.clearConsole();
+        if(numPotions >= 1) {
+            setNumPotions(numPotions - 1);
+            setHpMax();
+            System.out.println("Ah... Tastes like someone mixed grandma's homemade chicken soup" +
+                    "with a pack of Hubba Bubba.");
+        } else {
+            System.out.println("You reach into your pack but... Looks like you'll have to rely " +
+                    "on your wit and charm for this one. (0 Potions in inventory)");
+        }
+        GameLogic.anythingToContinue();
     }
 
     public int getNumPotions() {
