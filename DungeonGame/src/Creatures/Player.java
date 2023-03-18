@@ -3,8 +3,6 @@ package Creatures;
 import Main.GameLogic;
 
 public class Player extends Creature{
-
-    private boolean isAlive;
     private int numPotions;
 
     public Player(String name, int maxHp){
@@ -26,8 +24,7 @@ public class Player extends Creature{
         if(numPotions >= 1) {
             setNumPotions(numPotions - 1);
             setHpMax();
-            System.out.println("Ah... Tastes like someone mixed grandma's homemade chicken soup" +
-                    "with a pack of Hubba Bubba.");
+            System.out.println("Tastes like grandma's chicken soup mixed with a pack of Hubba Bubba.");
         } else {
             System.out.println("You reach into your pack but... Looks like you'll have to rely " +
                     "on your wit and charm for this one. (0 Potions in inventory)");

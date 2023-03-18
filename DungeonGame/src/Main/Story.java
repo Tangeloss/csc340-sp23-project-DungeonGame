@@ -70,7 +70,7 @@ public class Story {
         System.out.println("Well, that was it for you, hero. Hopes and dreams can only carry you so far with that many" +
                 " vital stab wounds");
         System.out.println("Looks like it's back to the drawing board for you. Or, you know, the afterlife. Whichever.");
-        System.out.println("On the bright side, at least you won't have to deal with those terrible skeleton puns " +
+        System.out.println("On the bright side, at least you won't have to deal with John " +
                 "anymore.");
         System.out.println("Hey, no one said being a hero was easy! Or survivable, apparently... Better luck in your " +
                 "next life!");

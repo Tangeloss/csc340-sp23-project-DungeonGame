@@ -129,9 +129,6 @@ public class GameLogic {
                 }
         } while (!named);
 
-        //print the story's intro
-        Story.printIntro();
-
         //create new player object with name
         player = new Player(name, 100);
 
