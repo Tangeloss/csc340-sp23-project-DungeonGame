@@ -15,12 +15,12 @@ public class GameLogic {
     //Story Elements, dungeon location
     public static int place = 0;
 
-    public static String Usertag;
+    public static String usertag;
 
 
     //method to get user input from console
     public static int readChoice(String prompt, int userChoices){
-        int input = 0;
+        int input;
 
         do{
             System.out.print(prompt);
@@ -119,8 +119,9 @@ public class GameLogic {
             clearConsole();
             printHeading("What is your name?");
             name = scanner.nextLine();
-                if(name.isBlank())
+                if(name.isBlank()){
                     continue;
+                }
                 else {
                     clearConsole();
                     printHeading("Your name is " + name + ".\nIs that correct?");
@@ -173,7 +174,7 @@ public class GameLogic {
     }
 
     public static boolean gameLoop(){
-        while(isRunning == true){
+        while(isRunning){
             printMenu();
             int input = readChoice("-> ", 3);
             if(input == 1)
@@ -189,8 +190,8 @@ public class GameLogic {
     }
 
     public static void canReview(){
-        Usertag = "Demo"; //This can be replaced with the actual "Demo reviewer" tag selected at login
-        if(isRunning == false && Usertag == "Demo"){
+        usertag = "Demo"; //This can be replaced with the actual "Demo reviewer" tag selected at login
+        if(!isRunning && usertag.equals("Demo")){
             writeReview();
         }
     }
