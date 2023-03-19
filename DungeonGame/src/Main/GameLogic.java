@@ -190,8 +190,7 @@ public class GameLogic {
                 characterInfo();
             else if (input == 3)
                 isRunning = false;
-                    canReview();
-                //if User.Tag = 'D' foo
+
         }
         return isRunning;
     }

@@ -104,6 +104,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
+                        GameLogic.startGame();
                     }
 
                     case 2 -> {
@@ -179,6 +180,8 @@ public class Login {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
                 System.out.println();
                 GameLogic.startGame();
+                System.out.println();
+                GameLogic.canReview();
 
             } else {
                 Scanner input = new Scanner(System.in);
@@ -193,6 +196,9 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         demoLoginInfo(username, password);
+                        GameLogic.startGame();
+                        System.out.println();
+                        GameLogic.canReview();
                     }
 
                     case 2 -> {
