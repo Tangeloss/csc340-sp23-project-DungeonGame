@@ -1,5 +1,7 @@
 package Main;
 
+import Users.Admin;
+
 import java.util.*;
 import java.io.*;
 public class Login {
@@ -29,13 +31,13 @@ public class Login {
                 System.out.print("Do you have an account? Yes(Y) No(N): ");
                 char choice = input.next().toUpperCase().charAt(0);
                 if (choice == 'Y') {
-                    Login.playerLoginInfo(playUser, playPass);
+                    playerLoginInfo(playUser, playPass);
 
                 } else {
-                    Login.printPlayerLoginFile();
+                    printPlayerLoginFile();
                     System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                     System.out.println();
-                    Login.playerLoginInfo(playUser, playPass);
+                    playerLoginInfo(playUser, playPass);
                 }
             }
             case 'D' -> {
@@ -43,19 +45,19 @@ public class Login {
                 System.out.print("Do you have an account? Yes(Y) No(N): ");
                 char choice1 = input.next().toUpperCase().charAt(0);
                 if (choice1 == 'Y') {
-                    Login.demoLoginInfo(demoUser, demoPass);
+                    demoLoginInfo(demoUser, demoPass);
 
                 } else {
                     Login.printDemoLoginFile();
                     System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                     System.out.println();
-                    Login.demoLoginInfo(demoUser, demoPass);
+                    demoLoginInfo(demoUser, demoPass);
 
                 }
             }
             case 'A' -> {
                 GameLogic.clearConsole();
-                Login.adminLoginInfo(adminUser, adminPass);
+                adminLoginInfo(adminUser, adminPass);
             }
         }
 

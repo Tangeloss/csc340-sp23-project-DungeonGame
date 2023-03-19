@@ -21,7 +21,7 @@ public class GameLogic {
 
     //method to get user input from console
     public static int readChoice(String prompt, int userChoices){
-        int input = 0;
+        int input;
 
         do{
             System.out.print(prompt);
@@ -197,8 +197,8 @@ public class GameLogic {
     }
 
     public static void canReview(){
-        usertag = "Demo"; //This can be replaced with the actual "Demo reviewer" tag selected at login
-        if(!isRunning && usertag.equals("Demo")){
+        usertag = "D"; //This can be replaced with the actual "Demo reviewer" tag selected at login
+        if(!isRunning && usertag.equals("D")){
             writeReview();
         }
     }

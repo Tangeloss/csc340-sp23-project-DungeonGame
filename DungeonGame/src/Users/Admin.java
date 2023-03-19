@@ -1,10 +1,13 @@
-package Main;
+package Users;
+
+import Main.GameLogic;
+import Main.Login;
 
 import java.io.*;
 import java.util.*;
 public class Admin {
     public static void admin() { // implement "GameLogic.clearConsole();" to make appearance better?
-        int choice = 0;
+        int choice;
 
         do {
             System.out.println("***********************");
