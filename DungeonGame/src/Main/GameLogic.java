@@ -21,7 +21,7 @@ public class GameLogic {
 
     //method to get user input from console
     public static int readChoice(String prompt, int userChoices){
-        int input = 0;
+        int input;
 
         do{
             System.out.print(prompt);
@@ -120,8 +120,9 @@ public class GameLogic {
             clearConsole();
             printHeading("What is your name?");
             name = scanner.nextLine();
-                if(name.isBlank())
+                if(name.isBlank()){
                     continue;
+                }
                 else {
                     clearConsole();
                     printHeading("Your name is " + name + ".\nIs that correct?");
