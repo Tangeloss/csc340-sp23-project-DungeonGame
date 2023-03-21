@@ -3,7 +3,7 @@ import Creatures.Monster;
 import Creatures.Player;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameLogic {
 
@@ -21,7 +21,7 @@ public class GameLogic {
 
     //method to get user input from console
     public static int readChoice(String prompt, int userChoices){
-        int input;
+        int input = 0;
 
         do{
             System.out.print(prompt);
@@ -120,9 +120,8 @@ public class GameLogic {
             clearConsole();
             printHeading("What is your name?");
             name = scanner.nextLine();
-                if(name.isBlank()){
+                if(name.isBlank())
                     continue;
-                }
                 else {
                     clearConsole();
                     printHeading("Your name is " + name + ".\nIs that correct?");
@@ -191,8 +190,7 @@ public class GameLogic {
                 characterInfo();
             else if (input == 3)
                 isRunning = false;
-                canReview();
-                //if User.Tag = 'D' foo
+
         }
         return isRunning;
     }
