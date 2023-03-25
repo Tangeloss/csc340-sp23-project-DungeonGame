@@ -6,6 +6,12 @@ import java.util.*;
 import java.io.*;
 public class Login {
     public static void LoginMenu() { // implement "GameLogic.clearConsole();" to make appearance better?
+        /*
+        * We likely don't want to be starting the game from the login menu. The class should return a user object
+        * that gets passed to the game. From there, we can simply reference the object when making decisions in
+        * game logic rather than making all the decisions from the login class and running different instances of
+        * the same game.
+        */
         System.out.println("******** Login ********");
         System.out.println(" P - Player");
         System.out.println(" D - Demo-Reviewer");
@@ -106,7 +112,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        //GameLogic.startGame();
                     }
 
                     case 2 -> {
@@ -116,7 +122,7 @@ public class Login {
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        //GameLogic.startGame();
                     }
                 }
             }
@@ -181,9 +187,9 @@ public class Login {
             if (isFound) {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
                 System.out.println();
-                GameLogic.startGame();
+                //GameLogic.startGame();
                 System.out.println();
-                GameLogic.canReview();
+                //GameLogic.canReview();
 
             } else {
                 Scanner input = new Scanner(System.in);
@@ -198,9 +204,9 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         demoLoginInfo(username, password);
-                        GameLogic.startGame();
+                        //GameLogic.startGame();
                         System.out.println();
-                        GameLogic.canReview();
+                        //GameLogic.canReview();
                     }
 
                     case 2 -> {
@@ -210,9 +216,9 @@ public class Login {
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         demoLoginInfo(username, password);
-                        GameLogic.startGame();
+                        //GameLogic.startGame();
                         System.out.println();
-                        GameLogic.canReview();
+                        //GameLogic.canReview();
                     }
                 }
             }

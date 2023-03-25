@@ -20,6 +20,7 @@ public class Story {
         System.out.println("But one thing is for certain: this dungeon won't know what hit it.");
         System.out.println("Enter:");
         GameLogic.printHeading("DUNGEON GAME");
+        GameLogic.anythingToContinue();
     }
 
     public static void deathScreen(){

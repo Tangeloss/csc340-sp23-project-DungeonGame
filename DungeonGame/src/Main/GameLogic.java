@@ -115,6 +115,7 @@ public class GameLogic {
                 "                                                                                                       /@@@@@@@@@@@@@@/                                                                                 ");
         anythingToContinue();
 
+
         //getting player name
         do{
             clearConsole();
