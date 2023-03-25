@@ -8,7 +8,7 @@ public class Login {
         System.out.println(" P - Player");
         System.out.println(" D - Demo-Reviewer");
         System.out.println(" A - Admin");
-        // Add non-login view of review doc? (R - View reviews)
+        System.out.println(" R - View reviews");
         System.out.println("***********************");
         System.out.print("Choice Login Type: ");
 
@@ -56,6 +56,9 @@ public class Login {
             case 'A' -> {
                 GameLogic.clearConsole();
                 Login.adminLoginInfo(adminUser, adminPass);
+            }
+            case 'R' -> {
+                DemoReviewer.loadReviews();
             }
         }
 
