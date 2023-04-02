@@ -71,7 +71,10 @@ public class GameLogic {
     public static void startGame(){
         boolean named = false;
         String name;
-        //print title screen
+        //print title screen and story
+        clearConsole();
+        Story.printIntro();
+        anythingToContinue();
         clearConsole();
         System.out.println("DUNGEON GAME");
         System.out.println("                                                                                                                                                                                             \n" +
@@ -144,7 +147,9 @@ public class GameLogic {
 
     //method to continue the game
     public static void continueJourney(){
-        createBattle();
+        System.out.println("Please choose a direction to move");
+
+
     }
 
     //printing character info

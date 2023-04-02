@@ -2,10 +2,18 @@ package Dungeon;
 
 public class Room {
 
-    public int id;
-    public boolean playerHere;
-    public boolean monsterHere;
-    public String description;
+    private int id; //place ID, stored when saving game, each room object has a different numerical id.
+    private String description;
+    private boolean playerHere;
+    private boolean monsterHere;
+
+    /*
+    left, center and right rooms store ids of the next room player can traverse to.
+    The only time center is valid is when the room only has one exit, otherwise it will present a left or a right.
+     */
+    private int left;
+    private int center;
+    private int right;
 
     public boolean isPlayerHere() {
         return playerHere;
