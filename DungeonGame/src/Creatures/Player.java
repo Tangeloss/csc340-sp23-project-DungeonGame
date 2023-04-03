@@ -4,7 +4,7 @@ import Main.GameLogic;
 
 public class Player extends Creature{
     private int numPotions;
-
+    private int dungeonLocation;
     public Player(String name, int maxHp){
         super(name, 100);
     }
@@ -46,5 +46,12 @@ public class Player extends Creature{
 
     public void setHpMax() {
         this.hp = maxHp;
+    }
+
+    public void setDungeonLocation(int location){
+        this.dungeonLocation = dungeonLocation;
+    }
+    public int getDungeonLocation() {
+        return dungeonLocation;
     }
 }

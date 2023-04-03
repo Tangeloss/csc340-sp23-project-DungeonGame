@@ -7,13 +7,12 @@ public class Room {
     private boolean playerHere;
     private boolean monsterHere;
 
-    /*
-    left, center and right rooms store ids of the next room player can traverse to.
-    The only time center is valid is when the room only has one exit, otherwise it will present a left or a right.
-     */
-    private int left;
-    private int center;
-    private int right;
+    public Room(int id, String description, boolean playerHere, boolean monsterHere) {
+        this.id = id;
+        this.description = description;
+        this.playerHere = playerHere;
+        this.monsterHere = monsterHere;
+    }
 
     public boolean isPlayerHere() {
         return playerHere;
@@ -29,5 +28,19 @@ public class Room {
 
     public void setMonsterHere(boolean monsterHere) {
         this.monsterHere = monsterHere;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", playerHere=" + playerHere +
+                ", monsterHere=" + monsterHere +
+                '}';
     }
 }

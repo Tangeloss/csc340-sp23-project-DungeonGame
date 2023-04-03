@@ -1,6 +1,9 @@
 package Main;
 import Creatures.Monster;
 import Creatures.Player;
+import Dungeon.Dungeon;
+import Dungeon.Navigation;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -67,88 +70,23 @@ public class GameLogic {
         scanner.next();
     }
 
-    //start game
-    public static void startGame(){
-        boolean named = false;
-        String name;
-        //print title screen and story
-        clearConsole();
-        Story.printIntro();
-        anythingToContinue();
-        clearConsole();
-        System.out.println("DUNGEON GAME");
-        System.out.println("                                                                                                                                                                                             \n" +
-                "                                               .#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,                                       ./@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                                                \n" +
-                "                                         %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.                        *                   /@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                                         \n" +
-                "                                    &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                        .&@@@% /@*                   .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/                                    \n" +
-                "                                &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.                           ,,  .@@@@@@                    #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/                                \n" +
-                "                             @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(                                /@@@@@@@@@                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             \n" +
-                "                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                              #@@@@@@@@@@@@@                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&                          \n" +
-                "                       &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                             #@@@@@&   ,&@@@@@                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,                       \n" +
-                "                     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@/                            %@@@@@          @%                    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                     \n" +
-                "                   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                            @@@@@.                                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                   \n" +
-                "                 @@@%.        .%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                           #@@@@@,                               (@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(         *&@@*                 \n" +
-                "               ,.                  .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                          @@@@@@@                              ,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                   (                \n" +
-                "                                      %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(                       .@@@@@@@%                            @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.                                      \n" +
-                "                                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&                    &@@@@@@@@@/                         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#                                        \n" +
-                "                                         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.              @@@@@@@@@@@@@*   (%               (@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@(                                         \n" +
-                "                                          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                          \n" +
-                "                                          @@#         (@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   &@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@&*        ,&@@                                          \n" +
-                "                                                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@%                                                           \n" +
-                "                                                             %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.  %@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                                              \n" +
-                "                                                               @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.  @@@@@@@@@@@@@&@@@@@@@@@@@@@@@                                                               \n" +
-                "                                                                @@@@@.              @@@@@@@@@@@@@@@@@@@@@   @@@@                  #@@@@@                                                                \n" +
-                "                                                                &(                     ,@@@@@@@@@@@@@@@@@  &*                         @,                                                                \n" +
-                "                                                                                          @@@@@@@@@@@@@@                                                                                                \n" +
-                "                                                                                           (@@@@@@@@@@@%                                                                                                \n" +
-                "                                                                                            (@@@@@@@@@@                                                                                                 \n" +
-                "                                                                                             @@@@@@@@@                                                                                                  \n" +
-                "                                                                                             @@@@@@@@.                                                                                                  \n" +
-                "                                                                                             @@@@@@@,                                                                                                   \n" +
-                "                                                                                            @@@@@@@/                                                                                                    \n" +
-                "                                                                                           /@@@@@@#                                                                                                     \n" +
-                "                                                                                           @@@@@@@                                                                                                      \n" +
-                "                                                                                           @@@@@@#                                                                                                      \n" +
-                "                                                                                           %@@@@@&                               @&                                                                     \n" +
-                "                                                                                            @@@@@@                            @@@@                                                                      \n" +
-                "                                                                                             @@@@@@.                      /(/,.@@                                                                       \n" +
-                "                                                                                              %@@@@@@                        @@%                                                                        \n" +
-                "                                                                                                %@@@@@@(                  /@@&                                                                          \n" +
-                "                                                                                                   @@@@@@@@&*        *&@@@@                                                                             \n" +
-                "                                                                                                       /@@@@@@@@@@@@@@/                                                                                 ");
-        anythingToContinue();
+    public static boolean gameLoop(){
+        while(isRunning){
+            printMenu();
+            int input = readChoice("-> ", 3);
+            if(input == 1){}
+                //Navigation(player, dungeon);
+            else if (input == 2)
+                characterInfo();
+            else if (input == 3)
+                isRunning = false;
 
-        //getting player name
-        do{
-            clearConsole();
-            printHeading("What is your name?");
-            name = scanner.nextLine();
-                if(name.isBlank())
-                    continue;
-                else {
-                    clearConsole();
-                    printHeading("Your name is " + name + ".\nIs that correct?");
-                    System.out.println("(1) Yes!\n(2) No, I want to change my name.");
-                    int input = readChoice("-> ", 2);
-                    if (input == 1)
-                        named = true;
-                }
-        } while (!named);
-
-        //create new player object with name
-        player = new Player(name, 100);
-
-        //setting the game to the running condition so the game loop can continue
-        isRunning = true;
-
-        //start main game loop
-        gameLoop();
+        }
+        return isRunning;
     }
 
     //method to continue the game
     public static void continueJourney(){
-        System.out.println("Please choose a direction to move");
-
 
     }
 
@@ -185,21 +123,6 @@ public class GameLogic {
         System.out.println("(3) Save and Quit");
     }
 
-    public static boolean gameLoop(){
-        while(isRunning){
-            printMenu();
-            int input = readChoice("-> ", 3);
-            if(input == 1)
-                continueJourney();
-            else if (input == 2)
-                characterInfo();
-            else if (input == 3)
-                isRunning = false;
-
-        }
-        return isRunning;
-    }
-
     public static void canReview(){
         usertag = "Demo"; //This can be replaced with the actual "Demo reviewer" tag selected at login
         if(!isRunning && usertag.equals("Demo")){
@@ -223,6 +146,46 @@ public class GameLogic {
             e.printStackTrace();
         }
         scanner.close();
+    }
+
+    //start game
+    public static void startGame(){
+        boolean named = false;
+        String name;
+        //print title screen and story
+        clearConsole();
+        Story.printIntro();
+        anythingToContinue();
+        //getting player name
+        do{
+            clearConsole();
+            printHeading("What is your name?");
+            name = scanner.nextLine();
+            if(name.isBlank())
+                continue;
+            else {
+                clearConsole();
+                printHeading("Your name is " + name + ".\nIs that correct?");
+                System.out.println("(1) Yes!\n(2) No, I want to change my name.");
+                int input = readChoice("-> ", 2);
+                if (input == 1)
+                    named = true;
+            }
+        } while (!named);
+
+        //create new player object with name, health and starting location
+        player = new Player(name, 100);
+
+        //Dungeon is created with graph logic
+        Dungeon dungeon = Dungeon.createDungeon(21);
+        player.setDungeonLocation(place);
+        //dungeon.getAdjList()[0].get(0).setPlayerHere(true);
+
+        //setting the game to the running condition so the game loop can continue
+        isRunning = true;
+
+        //start main game loop
+        gameLoop();
     }
 }
 

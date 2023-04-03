@@ -1,27 +1,22 @@
 package Main;
 
+import Creatures.Player;
 import Dungeon.Dungeon;
+import Dungeon.Room;
 
 public class Game {
     public static void main(String[] args) {
 
-        Dungeon dungeon = new Dungeon(21);
+        int place = 0;
 
-        dungeon.addPath(0, 1);
-        dungeon.addPath(0, 2);
-        dungeon.addPath(1, 3);
-        dungeon.addPath(1, 4);
-        dungeon.addPath(3, 6);
-        dungeon.addPath(6, 9);
-        dungeon.addPath(4, 7);
-        dungeon.addPath(5, 7);
-        dungeon.addPath(5, 8);
-        dungeon.addPath(7, 9);
-        dungeon.addPath(8, 10);
-        dungeon.addPath(9, 11);
+        Player player = new Player("jeff", 100);
+
+        //Dungeon is created with graph logic
+        Dungeon dungeon = Dungeon.createDungeon(21);
+        player.setDungeonLocation(place);
+        //dungeon.getAdjList()[0].get(0).setPlayerHere(true);
 
         dungeon.print();
-
 
         //Login.LoginMenu();
     }
