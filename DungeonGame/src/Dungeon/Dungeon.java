@@ -58,32 +58,36 @@ public class Dungeon {
             roomArray[i] = new Room(i, "Wow! Another Room!", false, false);
         }
 
+        //builds paths in the dungeon
         addPath(dungeon, roomArray[0], roomArray[1]);
-        addPath(dungeon, roomArray[0], roomArray[2]);
+        addPath(dungeon, roomArray[1], roomArray[2]);
         addPath(dungeon, roomArray[1], roomArray[3]);
-        addPath(dungeon, roomArray[1], roomArray[4]);
+        addPath(dungeon, roomArray[2], roomArray[4]);
         addPath(dungeon, roomArray[2], roomArray[5]);
         addPath(dungeon, roomArray[3], roomArray[6]);
         addPath(dungeon, roomArray[4], roomArray[7]);
-        addPath(dungeon, roomArray[5], roomArray[7]);
         addPath(dungeon, roomArray[5], roomArray[8]);
+        addPath(dungeon, roomArray[6], roomArray[8]);
         addPath(dungeon, roomArray[6], roomArray[9]);
-        addPath(dungeon, roomArray[7], roomArray[9]);
+        addPath(dungeon, roomArray[7], roomArray[10]);
         addPath(dungeon, roomArray[8], roomArray[10]);
         addPath(dungeon, roomArray[9], roomArray[11]);
-        addPath(dungeon, roomArray[9], roomArray[12]);
         addPath(dungeon, roomArray[10], roomArray[12]);
         addPath(dungeon, roomArray[10], roomArray[13]);
+        addPath(dungeon, roomArray[11], roomArray[13]);
         addPath(dungeon, roomArray[11], roomArray[14]);
         addPath(dungeon, roomArray[12], roomArray[15]);
         addPath(dungeon, roomArray[13], roomArray[16]);
         addPath(dungeon, roomArray[14], roomArray[17]);
-        addPath(dungeon, roomArray[15], roomArray[17]);
         addPath(dungeon, roomArray[15], roomArray[18]);
+        addPath(dungeon, roomArray[16], roomArray[18]);
         addPath(dungeon, roomArray[16], roomArray[19]);
         addPath(dungeon, roomArray[17], roomArray[20]);
-        addPath(dungeon, roomArray[18], roomArray[20]);
-        addPath(dungeon, roomArray[19], roomArray[20]);
+        addPath(dungeon, roomArray[18], roomArray[21]);
+        addPath(dungeon, roomArray[19], roomArray[21]);
+        addPath(dungeon, roomArray[20], roomArray[21]);
+
+        //TODO populateDungeon, taking in dungeon and list of monster rooms, return true for rooms where monsters are
 
         return dungeon;
     }

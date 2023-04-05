@@ -2,7 +2,7 @@ package Main;
 import Creatures.Monster;
 import Creatures.Player;
 import Dungeon.Dungeon;
-import Dungeon.Navigation;
+import Dungeon.Room;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,16 +11,44 @@ import java.util.*;
 public class GameLogic {
 
     static Scanner scanner = new Scanner(System.in);
-
     static Player player;
-
     public static boolean isRunning;
-
     //Story Elements, dungeon location
-    public static int place = 0;
-
+    public static int place;
     public static String usertag;
+    //Dungeon is created with graph logic
+    public static Dungeon dungeon = Dungeon.createDungeon(22);
 
+    //printing the main menu
+    public static void printMenu(){
+        clearConsole();
+        System.out.println(player.getDungeonLocation());
+        System.out.println("Description:");
+        System.out.println(dungeon.getAdjList()[place].element().getDescription());
+        dungeon.print();
+        printHeading("MENU");
+        System.out.println("Choose an action:");
+        printSeperator(20);
+        System.out.println("(1) Continue on your adventure");
+        System.out.println("(2) Character Info");
+        //TODO: if userTag is 'D', if userTag 'U'
+        System.out.println("(3) Save and Quit");
+    }
+
+    public static boolean gameLoop(){
+        while(isRunning){
+            printMenu();
+            int input = readChoice("-> ", 3);
+            if(input == 1)
+                continueJourney();
+            else if (input == 2)
+                characterInfo();
+            else if (input == 3)
+                isRunning = false;
+
+        }
+        return isRunning;
+    }
 
     //method to get user input from console
     public static int readChoice(String prompt, int userChoices){
@@ -44,50 +72,46 @@ public class GameLogic {
         return input;
     }
 
-    //method to clear the console
-    public static void clearConsole(){
-        for (int i = 0; i < 100; i++)
-            System.out.println();
-    }
-
-    //method to print separator with length n
-    public static void printSeperator(int n){
-        for(int i = 0; i < n; i++)
-            System.out.print("-");
-        System.out.println();
-    }
-
-    //Method to print a heading
-    public static void printHeading(String title){
-        printSeperator(30);
-        System.out.println(title);
-        printSeperator(30);
-    }
-
-    //method to stop the game until the user enters something
-    public static void anythingToContinue(){
-        System.out.println("\nEnter anything to continue...");
-        scanner.next();
-    }
-
-    public static boolean gameLoop(){
-        while(isRunning){
-            printMenu();
-            int input = readChoice("-> ", 3);
-            if(input == 1){}
-                //Navigation(player, dungeon);
-            else if (input == 2)
-                characterInfo();
-            else if (input == 3)
-                isRunning = false;
-
-        }
-        return isRunning;
-    }
-
     //method to continue the game
     public static void continueJourney(){
+        clearConsole();
+        System.out.println(player.getDungeonLocation());
+        if(player.getDungeonLocation() == 0){ //if the player is in the starting room
+            System.out.println("You stand at the entryway of the dank and dark dungeon.");
+            place = 1;
+            dungeon.getAdjList()[0].element().setPlayerHere(true);
+            anythingToContinue();
+        } else if (player.getDungeonLocation() == 22) { //if the player is at the final room
+            Story.winScreen();
+            isRunning = false;
+        } else { //the player is in room 1 - 20
+            //check if a monster is there, if so initiate combat
+            boolean monsterHere = dungeon.getAdjList()[place].element().isMonsterHere();
+            boolean playerHere = dungeon.getAdjList()[place].element().isPlayerHere();
+            if (playerHere && monsterHere){
+                //TODO createBattle(); REMEMBER TO HAVE THE NEW MONSTER BE GENERATED IN THAT METHOD!
+            }
+            if(dungeon.getAdjList()[place].size() == 2){
+                String prompt = "In front of you are two doors, one to the left and one to the right. Which " +
+                        "direction would you like to move?";
+                int direction = readChoice(prompt, 2);
+                System.out.println("You move into the door on your " + (direction == 1 ? "left" : "right"));
+                if (direction == 1){
+                    place = dungeon.getAdjList()[place].get(0).getId();
+                    dungeon.getAdjList()[place].get(0).setPlayerHere(true);
+                } else {
+                    place = dungeon.getAdjList()[place].get(1).getId();
+                    dungeon.getAdjList()[place].get(1).setPlayerHere(true);
+                }
+            } else {
+                System.out.println("It looks from here there is only one way to go. You move to that room...");
+                place = dungeon.getAdjList()[place].get(0).getId();
+                dungeon.getAdjList()[place].get(0).setPlayerHere(true);
+                anythingToContinue();
 
+            }
+        }
+        player.setDungeonLocation(place);
     }
 
     //printing character info
@@ -106,22 +130,11 @@ public class GameLogic {
         clearConsole();
         printHeading("You've encountered an evil creature! You'll have to fight it!");
         anythingToContinue();
-        //creating new enemy
+        //generate a monster, start combat with that monster
         new Combat(player, new Monster("John", 20));
 
     }
 
-    //printing the main menu
-    public static void printMenu(){
-        clearConsole();
-        printHeading("MENU");
-        System.out.println("Choose an action:");
-        printSeperator(20);
-        System.out.println("(1) Continue on your adventure");
-        System.out.println("(2) Character Info");
-        //TODO: if userTag is 'D', if userTag 'U'
-        System.out.println("(3) Save and Quit");
-    }
 
     public static void canReview(){
         usertag = "Demo"; //This can be replaced with the actual "Demo reviewer" tag selected at login
@@ -173,19 +186,40 @@ public class GameLogic {
             }
         } while (!named);
 
-        //create new player object with name, health and starting location
+        //create new player object with name
         player = new Player(name, 100);
-
-        //Dungeon is created with graph logic
-        Dungeon dungeon = Dungeon.createDungeon(21);
-        player.setDungeonLocation(place);
-        //dungeon.getAdjList()[0].get(0).setPlayerHere(true);
 
         //setting the game to the running condition so the game loop can continue
         isRunning = true;
 
         //start main game loop
         gameLoop();
+    }
+
+    //method to clear the console
+    public static void clearConsole(){
+        for (int i = 0; i < 100; i++)
+            System.out.println();
+    }
+
+    //method to print separator with length n
+    public static void printSeperator(int n){
+        for(int i = 0; i < n; i++)
+            System.out.print("-");
+        System.out.println();
+    }
+
+    //Method to print a heading
+    public static void printHeading(String title){
+        printSeperator(30);
+        System.out.println(title);
+        printSeperator(30);
+    }
+
+    //method to stop the game until the user enters something
+    public static void anythingToContinue(){
+        System.out.println("\nEnter anything to continue...");
+        scanner.next();
     }
 }
 
