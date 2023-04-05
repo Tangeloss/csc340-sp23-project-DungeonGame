@@ -83,6 +83,7 @@ public class GameLogic {
             anythingToContinue();
         } else if (player.getDungeonLocation() == 22) { //if the player is at the final room
             Story.winScreen();
+            //TODO Add score calculation based on gold gained from monster battles
             isRunning = false;
         } else { //the player is in room 1 - 20
             //check if a monster is there, if so initiate combat
