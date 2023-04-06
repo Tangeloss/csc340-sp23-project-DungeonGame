@@ -166,15 +166,32 @@ public class GameLogic {
     }
 
     //start game
-    //TODO MAKE SEPERATE NAMING METHOD TO HAVE SAM CALL IT FROM LOGIN
-    //TODO PASS THE PLAYER BACK TO LOGIN IN ORDER TO PERSIST THE OBJECT
-    public static void startGame(){
-        boolean named = false;
-        String name;
+    public static Player startGame(String name){
+
         //print title screen and story
         clearConsole();
         Story.printIntro();
         anythingToContinue();
+
+        if(name == "")
+            nameCharacter();
+
+
+        //create new player object with name
+        player = new Player(name, 100);
+
+        //setting the game to the running condition so the game loop can continue
+        isRunning = true;
+
+        //start main game loop
+        gameLoop();
+
+        return player;
+    }
+
+    public static String nameCharacter(){
+        boolean named = false;
+        String name;
         //getting player name
         do{
             clearConsole();
@@ -192,14 +209,7 @@ public class GameLogic {
             }
         } while (!named);
 
-        //create new player object with name
-        player = new Player(name, 100);
-
-        //setting the game to the running condition so the game loop can continue
-        isRunning = true;
-
-        //start main game loop
-        gameLoop();
+        return name;
     }
 
     //method to clear the console
