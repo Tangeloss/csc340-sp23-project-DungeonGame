@@ -3,11 +3,14 @@ package Creatures;
 import Main.GameLogic;
 
 public class Player extends Creature{
-    private int numPotions;
 
+    //TODO private int gold;
+    private int numPotions;
+    private int dungeonLocation;
     public Player(String name, int maxHp){
         super(name, 100);
     }
+
 
     @Override
     public int atk(){
@@ -47,4 +50,13 @@ public class Player extends Creature{
     public void setHpMax() {
         this.hp = maxHp;
     }
+
+    public void setDungeonLocation(int dungeonLocation){
+        this.dungeonLocation = dungeonLocation;
+    }
+    public int getDungeonLocation() {
+        return dungeonLocation;
+    }
+
+    //TODO public int getGold() & setGold()
 }
