@@ -5,15 +5,15 @@ import java.io.*;
 public class Login {
     public static void LoginMenu() { // implement "GameLogic.clearConsole();" to make appearance better?
         System.out.println("******** Login ********");
-        System.out.println(" P - Player");
-        System.out.println(" D - Demo-Reviewer");
-        System.out.println(" A - Admin");
-        System.out.println(" R - View reviews");
+        System.out.println(" 1 - Player");
+        System.out.println(" 2 - Demo-Reviewer");
+        System.out.println(" 3 - Admin");
+        System.out.println(" 4 - View reviews");
         System.out.println("***********************");
         System.out.print("Choice Login Type: ");
 
         Scanner input = new Scanner(System.in);
-        char login = input.next().toUpperCase().charAt(0);
+        int login = input.nextInt();
 
         String playUser = "";
         String playPass = "";
@@ -24,11 +24,11 @@ public class Login {
 
         // Menu Selections
         switch(login) {
-            case 'P' -> {
+            case 1 -> {
                 GameLogic.clearConsole();
-                System.out.print("Do you have an account? Yes(Y) No(N): ");
-                char choice = input.next().toUpperCase().charAt(0);
-                if (choice == 'Y') {
+                System.out.print("Do you have an account? Yes(1) No(2): ");
+                int choice = input.nextInt();
+                if (choice == 1) {
                     Login.playerLoginInfo(playUser, playPass);
 
                 } else {
@@ -38,11 +38,11 @@ public class Login {
                     Login.playerLoginInfo(playUser, playPass);
                 }
             }
-            case 'D' -> {
+            case 2 -> {
                 GameLogic.clearConsole();
-                System.out.print("Do you have an account? Yes(Y) No(N): ");
-                char choice1 = input.next().toUpperCase().charAt(0);
-                if (choice1 == 'Y') {
+                System.out.print("Do you have an account? Yes(1) No(2): ");
+                int choice1 = input.nextInt();
+                if (choice1 == 1) {
                     Login.demoLoginInfo(demoUser, demoPass);
 
                 } else {
@@ -53,11 +53,11 @@ public class Login {
 
                 }
             }
-            case 'A' -> {
+            case 3 -> {
                 GameLogic.clearConsole();
                 Login.adminLoginInfo(adminUser, adminPass);
             }
-            case 'R' -> {
+            case 4 -> {
                 DemoReviewer.loadReviews();
             }
         }
