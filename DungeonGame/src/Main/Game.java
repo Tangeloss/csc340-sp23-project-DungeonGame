@@ -1,9 +1,5 @@
 package Main;
 
-import Creatures.Player;
-import Dungeon.Dungeon;
-import Dungeon.Room;
-
 public class Game {
 
     //public static Dungeon dungeon = Dungeon.createDungeon(22);

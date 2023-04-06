@@ -87,27 +87,30 @@ public class GameLogic {
             isRunning = false;
         } else { //the player is in room 1 - 20
             //check if a monster is there, if so initiate combat
-            boolean monsterHere = dungeon.getAdjList()[place].element().isMonsterHere();
-            boolean playerHere = dungeon.getAdjList()[place].element().isPlayerHere();
+            boolean monsterHere = dungeon.getAdjList()[place - 1].element().isMonsterHere();
+            boolean playerHere = dungeon.getAdjList()[place - 1].element().isPlayerHere();
             if (playerHere && monsterHere){
                 //TODO createBattle(); REMEMBER TO HAVE THE NEW MONSTER BE GENERATED IN THAT METHOD!
             }
             if(dungeon.getAdjList()[place].size() == 2){
-                String prompt = "In front of you are two doors, one to the left and one to the right. Which " +
-                        "direction would you like to move?";
-                int direction = readChoice(prompt, 2);
+                System.out.println("In front of you are two doors, one to the left and one to the right. Which " +
+                        "direction would you like to move?");
+                System.out.println("(1) Move to the door on the left");
+                System.out.println("(2) Move to the door on the right");
+                int direction = readChoice("-> ", 2);
                 System.out.println("You move into the door on your " + (direction == 1 ? "left" : "right"));
                 if (direction == 1){
-                    place = dungeon.getAdjList()[place].get(0).getId();
+                    place = (dungeon.getAdjList()[place].get(0).getId() - 1);
                     dungeon.getAdjList()[place].get(0).setPlayerHere(true);
                 } else {
-                    place = dungeon.getAdjList()[place].get(1).getId();
+                    //problem with getting the place at index 1...
+                    place = (dungeon.getAdjList()[place].get(1).getId() - 1);
                     dungeon.getAdjList()[place].get(1).setPlayerHere(true);
                 }
             } else {
                 System.out.println("It looks from here there is only one way to go. You move to that room...");
-                place = dungeon.getAdjList()[place].get(0).getId();
-                dungeon.getAdjList()[place].get(0).setPlayerHere(true);
+                place = dungeon.getAdjList()[place - 1].get(0).getId();
+                dungeon.getAdjList()[place - 1].get(0).setPlayerHere(true);
                 anythingToContinue();
 
             }
@@ -163,6 +166,8 @@ public class GameLogic {
     }
 
     //start game
+    //TODO MAKE SEPERATE NAMING METHOD TO HAVE SAM CALL IT FROM LOGIN
+    //TODO PASS THE PLAYER BACK TO LOGIN IN ORDER TO PERSIST THE OBJECT
     public static void startGame(){
         boolean named = false;
         String name;
