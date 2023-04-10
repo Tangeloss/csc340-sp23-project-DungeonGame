@@ -71,7 +71,7 @@ public class GameLogic {
 
     //method to stop the game until the user enters something
     public static void anythingToContinue() throws InterruptedException, DeepLException{
-        TextResult result = translator.translateText("\nEnter anything to continue...", null, "de");
+        TextResult result = translator.translateText("\nEnter anything to continue...", null, "ko");
         System.out.println(result.getText());
         scanner.next();
     }
@@ -227,13 +227,6 @@ public class GameLogic {
             e.printStackTrace();
         }
         scanner.close();
-    }
-
-    public static void Translate() throws InterruptedException, DeepLException {
-        ;  // Replace with your key
-        Translator translator = new Translator(authKey);
-        TextResult result = translator.translateText("Hello, world!", null, "es");
-        System.out.println(result.getText()); // "Bonjour, le monde !"
     }
 }
 
