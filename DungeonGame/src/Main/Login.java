@@ -3,61 +3,49 @@ package Main;
 import java.util.*;
 import java.io.*;
 public class Login {
+
     public static void LoginMenu() { // implement "GameLogic.clearConsole();" to make appearance better?
         System.out.println("******** Login ********");
-        System.out.println(" P - Player");
-        System.out.println(" D - Demo-Reviewer");
-        System.out.println(" A - Admin");
-        System.out.println(" R - View reviews");
+        System.out.println(" 1 - Player");
+        System.out.println(" 2 - Demo-Reviewer");
+        System.out.println(" 3 - Admin");
+        System.out.println(" 4 - View reviews");
         System.out.println("***********************");
         System.out.print("Choice Login Type: ");
 
         Scanner input = new Scanner(System.in);
-        char login = input.next().toUpperCase().charAt(0);
+        int login = input.nextInt();
 
         String playUser = "";
         String playPass = "";
-        String demoUser = "";
-        String demoPass = "";
         String adminUser = "";
         String adminPass = "";
+        String name3 = "";
 
         // Menu Selections
         switch(login) {
-            case 'P' -> {
+            case 1 -> {
                 GameLogic.clearConsole();
-                System.out.print("Do you have an account? Yes(Y) No(N): ");
-                char choice = input.next().toUpperCase().charAt(0);
-                if (choice == 'Y') {
+                System.out.print("Do you have an account? Yes(1) No(2): ");
+                int choice = input.nextInt();
+                if (choice == 1) {
                     Login.playerLoginInfo(playUser, playPass);
 
                 } else {
-                    Login.printPlayerLoginFile();
+                    createPlayerLoginFile(name3);
                     System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                     System.out.println();
-                    Login.playerLoginInfo(playUser, playPass);
+                    playerLoginInfo(playUser, playPass);
                 }
             }
-            case 'D' -> {
-                GameLogic.clearConsole();
-                System.out.print("Do you have an account? Yes(Y) No(N): ");
-                char choice1 = input.next().toUpperCase().charAt(0);
-                if (choice1 == 'Y') {
-                    Login.demoLoginInfo(demoUser, demoPass);
+            case 2 -> {
 
-                } else {
-                    Login.printDemoLoginFile();
-                    System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
-                    System.out.println();
-                    Login.demoLoginInfo(demoUser, demoPass);
-
-                }
             }
-            case 'A' -> {
+            case 3 -> {
                 GameLogic.clearConsole();
-                Login.adminLoginInfo(adminUser, adminPass);
+                adminLoginInfo(adminUser, adminPass);
             }
-            case 'R' -> {
+            case 4 -> {
                 DemoReviewer.loadReviews();
             }
         }
@@ -68,6 +56,9 @@ public class Login {
     public static void playerLoginInfo(String username, String password) {
 
         Scanner info = new Scanner (System.in);
+        String name = "";
+        String name2 = "";
+        createPlayerLoginFile(name);
 
         System.out.print("Enter Username: ");
         String playUser = info.nextLine();
@@ -75,23 +66,29 @@ public class Login {
         System.out.print("Enter Password: ");
         String playPass = info.nextLine();
 
-        try {
-            Scanner read = new Scanner(new File("P.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("P.csv"))) {
+            String line = "";
+            String splitBy = ",";
+            String[] loginArr;
+            int i = 0;
             boolean isFound = false;
 
-            while (read.hasNextLine()) {
-                username = read.nextLine();
-                password = read.nextLine();
+            while ((line = br.readLine()) != null) {
+                loginArr = line.split(splitBy);
+
+                username = loginArr[0];
+                password = loginArr[1];
 
                 if (playUser.equals(username) && playPass.equals(password)) {
                     isFound = true;
                 }
+
             }
-            read.close();
+            br.close();
 
             if (isFound) {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
-                GameLogic.startGame();
+                GameLogic.startGame(name);
                 System.out.println();
 
             } else {
@@ -107,29 +104,40 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame(name);
                     }
 
                     case 2 -> {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
-                        printPlayerLoginFile();
+                        createPlayerLoginFile(name2);
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame(name);
                     }
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+        System.out.println("Error Opening file");
         }
     }
 
-    // Method 2- Printing new Player username and password to file method
-    public static void printPlayerLoginFile() {
-        java.io.File playerFile = new java.io.File("P.txt");
+    // Method 2- Printing new Player username and password and to file method
+    public static String createPlayerLoginFile(String charName) {
+
+        // Write formatted output to the file
+        Scanner info = new Scanner (System.in);
+        System.out.print("Create Username: ");
+        String newUsername = info.nextLine();
+
+        System.out.print("Create Password: ");
+        String newPassword = info.nextLine();
+
+        charName = GameLogic.nameCharacter();;
+
+        java.io.File playerFile = new java.io.File("P.csv");
         try {
             if(!playerFile.exists()) {
                 System.out.println("New file created.");
@@ -137,121 +145,18 @@ public class Login {
             }
             java.io.PrintWriter output = new java.io.PrintWriter(new FileWriter(playerFile, true));
 
-            // Write formatted output to the file
-            Scanner info = new Scanner (System.in);
-            System.out.print("Create Username: ");
-            String newUsername = info.nextLine();
-
-            System.out.print("Create Password: ");
-            String newPassword = info.nextLine();
-
-            output.println(newUsername);
-            output.println(newPassword);
+            output.println(newUsername + "," + newPassword + "," + charName);
 
             output.close();
+
         } catch (IOException ex) {
             System.out.println("Error Opening Output file");
         }
-    }
-
-    // Method 3- Demo Reviewer login method
-    public static void demoLoginInfo(String username, String password) {
-
-        Scanner info = new Scanner (System.in);
-
-        System.out.print("Enter Username: ");
-        String demoUser = info.nextLine();
-
-        System.out.print("Enter Password: ");
-        String demoPass = info.nextLine();
-
-        try {
-            Scanner read = new Scanner(new File("D.txt"));
-            boolean isFound = false;
-
-            while (read.hasNextLine()) {
-                username = read.nextLine();
-                password = read.nextLine();
-
-                if (demoUser.equals(username) && demoPass.equals(password)) {
-                    isFound = true;
-                }
-            }
-            read.close();
-
-            if (isFound) {
-                System.out.println("Time to enter the world of mazes, monsters, and magic!");
-                System.out.println();
-                GameLogic.startGame();
-                System.out.println();
-                GameLogic.canReview();
-
-            } else {
-                Scanner input = new Scanner(System.in);
-
-                System.out.println();
-                System.out.println("Oh no! Your spell was not in the Great Spell-book!");
-                System.out.print("Do you want try again (1) or create a new entrance spell to start a new adventure (2)?: ");
-                int choice = input.nextInt();
-
-                switch (choice) {
-                    case 1-> {
-                        GameLogic.clearConsole(); // Change clearing spot?
-                        System.out.println();
-                        demoLoginInfo(username, password);
-                        GameLogic.startGame();
-                        System.out.println();
-                        GameLogic.canReview();
-                    }
-
-                    case 2 -> {
-                        GameLogic.clearConsole(); // Change clearing spot?
-                        System.out.println();
-                        printDemoLoginFile();
-                        System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
-                        System.out.println();
-                        demoLoginInfo(username, password);
-                        GameLogic.startGame();
-                        System.out.println();
-                        GameLogic.canReview();
-                    }
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Method 4- Printing new Demo reviewer username and password to file method
-    public static void printDemoLoginFile() {
-        java.io.File demoFile = new java.io.File("D.txt");
-        try {
-            if(!demoFile.exists()) {
-                System.out.println("New file created.");
-                demoFile.createNewFile();
-            }
-            java.io.PrintWriter output = new java.io.PrintWriter(new FileWriter(demoFile, true));
-
-            // Write formatted output to the file
-            Scanner info = new Scanner (System.in);
-            System.out.print("Create Username: ");
-            String newUsername = info.nextLine();
-
-            System.out.print("Create Password: ");
-            String newPassword = info.nextLine();
-
-            output.println(newUsername);
-            output.println(newPassword);
-
-            output.close();
-        } catch (IOException ex) {
-            System.out.println("Error Opening Output file");
-        }
+        return charName;
     }
 
     // Method 5- Admin Login method
-    public static void adminLoginInfo(String username, String password) {
+    public static void adminLoginInfo(String user, String pass) {
         //
         Scanner info = new Scanner (System.in);
 
@@ -261,19 +166,25 @@ public class Login {
         System.out.print("Enter Password: ");
         String adminPass = info.nextLine();
 
-        try {
-            Scanner read = new Scanner(new File("A.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("A.csv"))) {
+            String line = "";
+            String splitBy = ",";
+            String[] loginArr;
+            int i = 0;
             boolean isFound = false;
 
-            while (read.hasNextLine()) {
-                username = read.nextLine();
-                password = read.nextLine();
+            while ((line = br.readLine()) != null) {
+                loginArr = line.split(splitBy);
 
-                if (adminUser.equals(username) && adminPass.equals(password)) {
+                user = loginArr[0];
+                pass = loginArr[1];
+
+                if (adminUser.equals(user) && adminPass.equals(pass)) {
                     isFound = true;
                 }
+
             }
-            read.close();
+            br.close();
 
             if (isFound) {
                 GameLogic.clearConsole(); // Change clearing spot?
@@ -284,12 +195,14 @@ public class Login {
             } else {
                 GameLogic.clearConsole(); // Change clearing spot?
                 System.out.println("Oh no! Your spell words did not open your path! Please recite them again.");
-                adminLoginInfo(username, password);
+                adminLoginInfo(user, pass);
                 System.out.println();
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+        } catch (IOException ex) {
+            System.out.println("Error Opening file");
         }
     }
 }
+

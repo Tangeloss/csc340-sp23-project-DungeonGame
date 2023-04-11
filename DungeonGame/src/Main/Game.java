@@ -4,8 +4,9 @@ public class Game {
 
     //public static Dungeon dungeon = Dungeon.createDungeon(22);
     public static void main(String[] args) {
+        Login.LoginMenu();
 
-        new Game();
+       // new Game();
 
         /*
         int place = 0;
@@ -22,12 +23,12 @@ public class Game {
         //Login.LoginMenu();
     }
 
-    public Game(){
-
+   // public Game(){
+     //   Login.LoginMenu();
         //GameLogic.Login
-        GameLogic.startGame();
+        //GameLogic.startGame();
 
-    }
+    //}
 
     /*
     public static void main(String[] args) {
