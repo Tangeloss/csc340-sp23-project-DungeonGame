@@ -8,7 +8,6 @@ public class Dungeon {
 
     private static int numRooms;
     private static LinkedList<Room>[] adjList;
-    private Room startRoom;
 
     public Dungeon(int numRooms) {
 
