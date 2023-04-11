@@ -15,13 +15,16 @@ public class GameLogic {
     public static boolean isRunning;
     //Story Elements, dungeon location
     public static int place;
-    public static String usertag;
-    //Dungeon is created with graph logic
-    public static Dungeon dungeon = Dungeon.createDungeon(5);
+    static final int NUM_ROOMS = 22;
+    public static Dungeon dungeon = Dungeon.createDungeon(NUM_ROOMS);
+
+    //TODO, get rid of Usertag dependence
+    private static String usertag;
 
     //printing the main menu
     public static void printMenu(){
         clearConsole();
+        dungeon.print();
         printHeading("MENU");
         System.out.println("Choose an action:");
         printSeperator(20);
@@ -77,10 +80,6 @@ public class GameLogic {
             place = 1;
             dungeon.getAdjList()[0].element().setPlayerHere(true);
             anythingToContinue();
-        } else if (player.getDungeonLocation() == 4) { //if the player is at the final room
-            Story.winScreen();
-            //TODO Add score calculation based on gold gained from monster battles
-            isRunning = false;
         } else { //the player is in room 1 - 20
             //check if a monster is there, if so initiate combat
             boolean monsterHere = dungeon.getAdjList()[place].element().isMonsterHere();
@@ -96,22 +95,29 @@ public class GameLogic {
                 int direction = readChoice("-> ", 2);
                 System.out.println("You move into the door on your " + (direction == 1 ? "left" : "right"));
                 if (direction == 1){
-                    place = (dungeon.getAdjList()[place].get(0).getId());
+                    //This also has a problem, going to room 2 sets true to room 4 in all instances.
                     dungeon.getAdjList()[place].get(0).setPlayerHere(true);
+                    place = (dungeon.getAdjList()[place].get(0).getId());
                 } else {
-                    //problem with getting the place at index 1...
-                    place = (dungeon.getAdjList()[place].get(1).getId());
+                    //TODO problem with getting the place at index 1 (right), Out of bounds exception
                     dungeon.getAdjList()[place].get(1).setPlayerHere(true);
+                    place = (dungeon.getAdjList()[place].get(1).getId());
                 }
             } else {
                 System.out.println("It looks from here there is only one way to go. You move to that room...");
+                dungeon.getAdjList()[place].get(0).setPlayerHere(true);
                 place = dungeon.getAdjList()[place].get(0).getId();
-                //dungeon.getAdjList()[place].get(0).setPlayerHere(true);
                 anythingToContinue();
 
             }
         }
         player.setDungeonLocation(place);
+
+        if (player.getDungeonLocation() == NUM_ROOMS-1) { //if the player is at the final room
+            Story.winScreen();
+            //TODO Add score calculation based on gold gained from monster battles
+            isRunning = false;
+        }
     }
 
     //printing character info
@@ -134,6 +140,7 @@ public class GameLogic {
         new Combat(player, new Monster("John", 20));
 
     }
+
 
 
     public static void canReview(){
