@@ -57,14 +57,6 @@ public class Dungeon {
             roomArray[i] = new Room(i, "Wow! Another Room!", false, false);
         }
 
-        /*
-        addPath(dungeon, roomArray[0], roomArray[1]);
-        addPath(dungeon, roomArray[1], roomArray[2]);
-        addPath(dungeon, roomArray[1], roomArray[3]);
-        addPath(dungeon, roomArray[2], roomArray[4]);
-        addPath(dungeon, roomArray[3], roomArray[4]);
-        */
-
         //builds paths in the dungeon
         addPath(dungeon, roomArray[0], roomArray[1]);
         addPath(dungeon, roomArray[1], roomArray[2]);
