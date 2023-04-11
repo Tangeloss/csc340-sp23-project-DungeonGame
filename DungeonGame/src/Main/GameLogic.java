@@ -17,15 +17,11 @@ public class GameLogic {
     public static int place;
     public static String usertag;
     //Dungeon is created with graph logic
-    public static Dungeon dungeon = Dungeon.createDungeon(22);
+    public static Dungeon dungeon = Dungeon.createDungeon(5);
 
     //printing the main menu
     public static void printMenu(){
         clearConsole();
-        System.out.println(player.getDungeonLocation());
-        System.out.println("Description:");
-        System.out.println(dungeon.getAdjList()[place].element().getDescription());
-        dungeon.print();
         printHeading("MENU");
         System.out.println("Choose an action:");
         printSeperator(20);
@@ -81,14 +77,14 @@ public class GameLogic {
             place = 1;
             dungeon.getAdjList()[0].element().setPlayerHere(true);
             anythingToContinue();
-        } else if (player.getDungeonLocation() == 22) { //if the player is at the final room
+        } else if (player.getDungeonLocation() == 4) { //if the player is at the final room
             Story.winScreen();
             //TODO Add score calculation based on gold gained from monster battles
             isRunning = false;
         } else { //the player is in room 1 - 20
             //check if a monster is there, if so initiate combat
-            boolean monsterHere = dungeon.getAdjList()[place - 1].element().isMonsterHere();
-            boolean playerHere = dungeon.getAdjList()[place - 1].element().isPlayerHere();
+            boolean monsterHere = dungeon.getAdjList()[place].element().isMonsterHere();
+            boolean playerHere = dungeon.getAdjList()[place].element().isPlayerHere();
             if (playerHere && monsterHere){
                 //TODO createBattle(); REMEMBER TO HAVE THE NEW MONSTER BE GENERATED IN THAT METHOD!
             }
@@ -100,17 +96,17 @@ public class GameLogic {
                 int direction = readChoice("-> ", 2);
                 System.out.println("You move into the door on your " + (direction == 1 ? "left" : "right"));
                 if (direction == 1){
-                    place = (dungeon.getAdjList()[place].get(0).getId() - 1);
+                    place = (dungeon.getAdjList()[place].get(0).getId());
                     dungeon.getAdjList()[place].get(0).setPlayerHere(true);
                 } else {
                     //problem with getting the place at index 1...
-                    place = (dungeon.getAdjList()[place].get(1).getId() - 1);
+                    place = (dungeon.getAdjList()[place].get(1).getId());
                     dungeon.getAdjList()[place].get(1).setPlayerHere(true);
                 }
             } else {
                 System.out.println("It looks from here there is only one way to go. You move to that room...");
-                place = dungeon.getAdjList()[place - 1].get(0).getId();
-                dungeon.getAdjList()[place - 1].get(0).setPlayerHere(true);
+                place = dungeon.getAdjList()[place].get(0).getId();
+                //dungeon.getAdjList()[place].get(0).setPlayerHere(true);
                 anythingToContinue();
 
             }

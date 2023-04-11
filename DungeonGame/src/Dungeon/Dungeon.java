@@ -8,7 +8,6 @@ public class Dungeon {
 
     private static int numRooms;
     private static LinkedList<Room>[] adjList;
-    private Room startRoom;
 
     public Dungeon(int numRooms) {
 
@@ -58,7 +57,13 @@ public class Dungeon {
             roomArray[i] = new Room(i, "Wow! Another Room!", false, false);
         }
 
-        //builds paths in the dungeon
+        addPath(dungeon, roomArray[0], roomArray[1]);
+        addPath(dungeon, roomArray[1], roomArray[2]);
+        addPath(dungeon, roomArray[1], roomArray[3]);
+        addPath(dungeon, roomArray[2], roomArray[4]);
+        addPath(dungeon, roomArray[3], roomArray[4]);
+
+        /*builds paths in the dungeon
         addPath(dungeon, roomArray[0], roomArray[1]);
         addPath(dungeon, roomArray[1], roomArray[2]);
         addPath(dungeon, roomArray[1], roomArray[3]);
@@ -86,6 +91,7 @@ public class Dungeon {
         addPath(dungeon, roomArray[18], roomArray[21]);
         addPath(dungeon, roomArray[19], roomArray[21]);
         addPath(dungeon, roomArray[20], roomArray[21]);
+        */
 
         //TODO populateDungeon, taking in dungeon and list of monster rooms, return true for rooms where monsters are
 

@@ -91,7 +91,7 @@ public class Login {
 
             if (isFound) {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
-                GameLogic.startGame();
+                GameLogic.startGame("");
                 System.out.println();
 
             } else {
@@ -107,7 +107,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("");
                     }
 
                     case 2 -> {
@@ -117,7 +117,7 @@ public class Login {
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("");
                     }
                 }
             }
@@ -182,7 +182,7 @@ public class Login {
             if (isFound) {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
                 System.out.println();
-                GameLogic.startGame();
+                GameLogic.startGame("");
                 System.out.println();
                 GameLogic.canReview();
 
@@ -199,7 +199,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         demoLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("");
                         System.out.println();
                         GameLogic.canReview();
                     }
@@ -211,7 +211,7 @@ public class Login {
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         demoLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("");
                         System.out.println();
                         GameLogic.canReview();
                     }
