@@ -1,32 +1,46 @@
 package Main;
 
+import com.deepl.api.DeepLException;
+import com.deepl.api.TextResult;
+
 import java.io.*;
 import java.util.*;
+
+import static Main.GameLogic.language;
+import static Main.GameLogic.translator;
+
 public class Admin {
-    public static void admin() { // implement "GameLogic.clearConsole();" to make appearance better?
-        int choice = 0;
+    public static void admin() throws IOException, DeepLException, InterruptedException { // implement "GameLogic.clearConsole();" to make appearance better?
+        int choice;
 
         do {
             System.out.println("***********************");
-            System.out.println(" 1 - Delete file");
-            System.out.println(" 2 - Save file");
-            System.out.println(" 3 - Load file");
-            System.out.println(" 4 - Log out");
+            TextResult result = translator.translateText(" 1 - Delete file", null, language);
+            System.out.println(result.getText());
+            TextResult result1 = translator.translateText(" 2 - Save file", null, language);
+            System.out.println(result1.getText());
+            TextResult result2 = translator.translateText(" 3 - Load file", null, language);
+            System.out.println(result2.getText());
+            TextResult result3 = translator.translateText(" 4 - Log out", null, language);
+            System.out.println(result3.getText());
             System.out.println("***********************");
-            System.out.print("Select function: ");
+            TextResult result4 = translator.translateText("Select function: ", null, language);
+            System.out.println(result4.getText());
 
             Scanner input = new Scanner(System.in);
             choice = input.nextInt();
 
             switch (choice) {
                 case 1 -> {
-                    System.out.println("Delete files");
+                    TextResult result5 = translator.translateText("Delete files", null, language);
+                    System.out.println(result5.getText());
                     System.out.println();
 
                 }
 
                 case 2 -> {
-                    System.out.println("Save files");
+                    TextResult result6 = translator.translateText("Save files", null, language);
+                    System.out.println(result6.getText());
                     System.out.println();
 
                 }
@@ -34,10 +48,14 @@ public class Admin {
                 case 3 -> {
                     System.out.println();
                     GameLogic.clearConsole();
-                    System.out.println("Choose file- ");
-                    System.out.println("Player Login Info File (1)");
-                    System.out.println("Demo Login Info File (2)");
-                    System.out.println("Admin Login Info File (3)");
+                    TextResult result7 = translator.translateText("Choose file- ", null, language);
+                    System.out.println(result7.getText());
+                    TextResult result8 = translator.translateText("Player Login Info File (1)", null, language);
+                    System.out.println(result8.getText());
+                    TextResult result9 = translator.translateText("Demo Login Info File (2)", null, language);
+                    System.out.println(result9.getText());
+                    TextResult result10 = translator.translateText("Admin Login Info File (3)", null, language);
+                    System.out.println(result10.getText());
                     System.out.print("File: ");
 
                     int file = input.nextInt();

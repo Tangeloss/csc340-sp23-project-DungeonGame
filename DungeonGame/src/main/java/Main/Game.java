@@ -2,10 +2,12 @@ package Main;
 
 import com.deepl.api.DeepLException;
 
+import java.io.IOException;
+
 public class Game {
 
     //public static Dungeon dungeon = Dungeon.createDungeon(22);
-    public static void main(String[] args) throws DeepLException, InterruptedException {
+    public static void main(String[] args) throws DeepLException, InterruptedException, IOException {
 
         new Game();
 
@@ -24,10 +26,11 @@ public class Game {
         //Login.LoginMenu();
     }
 
-    public Game() throws DeepLException, InterruptedException {
+    public Game() throws DeepLException, InterruptedException, IOException {
 
-        //GameLogic.Login
+
         GameLogic.startGame();
+        //Login.LoginMenu();
 
     }
 
