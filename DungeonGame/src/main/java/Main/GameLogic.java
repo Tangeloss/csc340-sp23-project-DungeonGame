@@ -16,7 +16,7 @@ public class GameLogic {
 
     static Player player;
 
-    public static String authKey = "e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx"; //Maybe a method to read auth key from a txt file?
+    public static String authKey = ""; //Maybe a method to read auth key from a txt file?
 
     public static Translator translator = new Translator(authKey);
 
