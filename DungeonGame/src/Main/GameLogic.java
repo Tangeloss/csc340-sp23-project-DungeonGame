@@ -1,6 +1,8 @@
 package Main;
 import Creatures.Monster;
+import Creatures.Orc;
 import Creatures.Player;
+import Creatures.Skeleton;
 import Dungeon.Dungeon;
 import Dungeon.Room;
 
@@ -24,13 +26,11 @@ public class GameLogic {
     //printing the main menu
     public static void printMenu(){
         clearConsole();
-        dungeon.print();
         printHeading("MENU");
         System.out.println("Choose an action:");
         printSeperator(20);
         System.out.println("(1) Continue on your adventure");
         System.out.println("(2) Character Info");
-        //TODO: if userTag is 'D', if userTag 'U'
         System.out.println("(3) Save and Quit");
     }
 
@@ -74,19 +74,14 @@ public class GameLogic {
     //method to continue the game
     public static void continueJourney(){
         clearConsole();
-        System.out.println(player.getDungeonLocation());
         if(player.getDungeonLocation() == 0){ //if the player is in the starting room
-            System.out.println("You stand at the entryway of the dank and dark dungeon.");
+            System.out.println("You stand at the entryway of the dank and dark dungeon. \nYou pat your pockets," +
+                    " feeling the potion you decided to bring along.");
+            player.setNumPotions(1); //give a new character a potion
             place = 1;
             dungeon.getAdjList()[0].element().setPlayerHere(true);
             anythingToContinue();
         } else { //the player is in room 1 - 20
-            //check if a monster is there, if so initiate combat
-            boolean monsterHere = dungeon.getAdjList()[place].element().isMonsterHere();
-            boolean playerHere = dungeon.getAdjList()[place].element().isPlayerHere();
-            if (playerHere && monsterHere){
-                //TODO createBattle(); REMEMBER TO HAVE THE NEW MONSTER BE GENERATED IN THAT METHOD!
-            }
             if(dungeon.getAdjList()[place].size() == 2){
                 System.out.println("In front of you are two doors, one to the left and one to the right. Which " +
                         "direction would you like to move?");
@@ -97,17 +92,19 @@ public class GameLogic {
                 if (direction == 1){
                     //This also has a problem, going to room 2 sets true to room 4 in all instances.
                     dungeon.getAdjList()[place].get(0).setPlayerHere(true);
+                    checkForCombat(place, 0);
                     place = (dungeon.getAdjList()[place].get(0).getId());
                 } else {
-                    //TODO problem with getting the place at index 1 (right), Out of bounds exception
                     dungeon.getAdjList()[place].get(1).setPlayerHere(true);
+                    checkForCombat(place, 1);
                     place = (dungeon.getAdjList()[place].get(1).getId());
                 }
             } else {
                 System.out.println("It looks from here there is only one way to go. You move to that room...");
                 dungeon.getAdjList()[place].get(0).setPlayerHere(true);
-                place = dungeon.getAdjList()[place].get(0).getId();
                 anythingToContinue();
+                checkForCombat(place, 0);
+                place = dungeon.getAdjList()[place].get(0).getId();
 
             }
         }
@@ -115,8 +112,23 @@ public class GameLogic {
 
         if (player.getDungeonLocation() == NUM_ROOMS-1) { //if the player is at the final room
             Story.winScreen();
-            //TODO Add score calculation based on gold gained from monster battles
             isRunning = false;
+        }
+    }
+
+    public static void checkForCombat(int place, int direction){
+        if (direction == 0){
+            boolean playerHere = dungeon.getAdjList()[place].get(0).isPlayerHere();
+            boolean monsterHere = dungeon.getAdjList()[place].get(0).isMonsterHere();
+            if (playerHere && monsterHere) {
+                createBattle();
+            }
+        } else {
+            boolean playerHere = dungeon.getAdjList()[place].get(1).isPlayerHere();
+            boolean monsterHere = dungeon.getAdjList()[place].get(1).isMonsterHere();
+            if (playerHere && monsterHere) {
+                createBattle();
+            }
         }
     }
 
@@ -136,9 +148,12 @@ public class GameLogic {
         clearConsole();
         printHeading("You've encountered an evil creature! You'll have to fight it!");
         anythingToContinue();
-        //generate a monster, start combat with that monster
-        new Combat(player, new Monster("John", 20));
-
+        Random rn = new Random();
+        int monsterChoice = rn.nextInt(2);
+        if (monsterChoice == 1)
+            new Combat(player, new Skeleton("Skeleton", 20));
+        else
+            new Combat(player, new Orc("Orc", 50));
     }
 
 

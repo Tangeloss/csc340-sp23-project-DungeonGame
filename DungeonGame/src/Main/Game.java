@@ -24,8 +24,9 @@ public class Game {
 
     public Game(){
 
-        //GameLogic.Login
+        //GameLogic.Login();
         GameLogic.startGame("Jeff");
+
 
     }
 
