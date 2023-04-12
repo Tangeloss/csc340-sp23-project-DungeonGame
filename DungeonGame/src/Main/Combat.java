@@ -12,8 +12,8 @@ public class Combat {
             GameLogic.printHeading(player.name + "\nHP: " + player.hp + "/" + player.maxHp);
             System.out.println("Choose an action:");
             GameLogic.printSeperator(20);
-            System.out.println("(1) Attack\n(2) Use a potion\n(3) Run Away\n(4) Die");
-            int input = GameLogic.readChoice("-> ", 4);
+            System.out.println("(1) Attack\n(2) Use a potion\n(3) Run Away");
+            int input = GameLogic.readChoice("-> ", 3);
             //react accordingly based on user input
             if (input == 1) {
                 //calculate damage and damage taken
@@ -49,8 +49,6 @@ public class Combat {
                         "because that's all it sees as you turn and run!");
                 GameLogic.anythingToContinue();
                 break;
-            } else if (input == 4) {
-                player.hp = 0;
             }
 
             //check if the player is dead
