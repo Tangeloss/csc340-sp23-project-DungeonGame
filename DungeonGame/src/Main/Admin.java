@@ -1,6 +1,9 @@
 package Main;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 public class Admin {
     public static void admin() { // implement "GameLogic.clearConsole();" to make appearance better?
@@ -8,9 +11,9 @@ public class Admin {
 
         do {
             System.out.println("***********************");
-            System.out.println(" 1 - Delete file");
-            System.out.println(" 2 - Save file");
-            System.out.println(" 3 - Load file");
+            System.out.println(" 1 - Load Account Info");
+            System.out.println(" 2 - Edit Account Info");
+            System.out.println(" 3 - Delete Account Info");
             System.out.println(" 4 - Log out");
             System.out.println("***********************");
             System.out.print("Select function: ");
@@ -20,24 +23,10 @@ public class Admin {
 
             switch (choice) {
                 case 1 -> {
-                    System.out.println("Delete files");
-                    System.out.println();
-
-                }
-
-                case 2 -> {
-                    System.out.println("Save files");
-                    System.out.println();
-
-                }
-
-                case 3 -> {
-                    System.out.println();
                     GameLogic.clearConsole();
                     System.out.println("Choose file- ");
-                    System.out.println("Player Login Info File (1)");
-                    System.out.println("Demo Login Info File (2)");
-                    System.out.println("Admin Login Info File (3)");
+                    System.out.println("(1) Player Account Info File");
+                    System.out.println("(2) Admin Account Info File");
                     System.out.print("File: ");
 
                     int file = input.nextInt();
@@ -45,25 +34,29 @@ public class Admin {
                     switch (file) {
                         case 1 -> {
                             System.out.println();
-                            System.out.println("File: 'P.txt'");
-                            loadPlayerLoginFile();
+                            System.out.println("File: 'P.csv'");
+                            loadPlayerFile();
                             System.out.println();
                         }
 
                         case 2 -> {
                             System.out.println();
-                            System.out.println("File: 'D.txt'");
-                            loadDemoLoginFile();
-                            System.out.println();
-                        }
-
-                        case 3 -> {
-                            System.out.println();
-                            System.out.println("File: 'A.txt'");
+                            System.out.println("File: 'A.csv'");
                             loadAdminLoginFile();
                             System.out.println();
                         }
                     }
+                }
+
+                case 2 -> {
+                    GameLogic.clearConsole();
+                    editPLayerFile();
+
+                }
+
+                case 3 -> {
+                    GameLogic.clearConsole();
+                    deletePlayerFile();
                 }
             }
         } while (choice != 4);
@@ -73,9 +66,9 @@ public class Admin {
     }
 
     // Method 1 - load player login info
-    public static void loadPlayerLoginFile() {
+    public static void loadPlayerFile() {
         try {
-            Scanner read = new Scanner(new File("P.txt"));
+            Scanner read = new Scanner(new File("P.csv"));
 
             while (read.hasNextLine()) {
                 System.out.println(read.nextLine());
@@ -87,25 +80,11 @@ public class Admin {
         }
     }
 
-    // Method 2 - load demo login info
-    public static void loadDemoLoginFile() {
-        try {
-            Scanner read = new Scanner(new File("D.txt"));
 
-            while (read.hasNextLine()) {
-                System.out.println(read.nextLine());
-            }
-            read.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Method 3 - load admin login info
+    // Method 2 - load admin login info
     public static void loadAdminLoginFile() {
         try {
-            Scanner read = new Scanner(new File("A.txt"));
+            Scanner read = new Scanner(new File("A.csv"));
 
             while (read.hasNextLine()) {
                 System.out.println(read.nextLine());
@@ -115,5 +94,194 @@ public class Admin {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    // Method 3 - delete accounts from the PlayerFile
+    public static void deletePlayerFile() {
+        System.out.println("(1) Delete a single account");
+        System.out.println("(2) Delete all accounts");
+        System.out.print("Select action: ");
+
+        Scanner input = new Scanner(System.in);
+        int choice1 = input.nextInt();
+        int i = 1;
+
+        switch (choice1) {
+            case 1 -> {
+                try {
+                    Scanner read = new Scanner(new File("P.csv"));
+
+                    System.out.println();
+                    System.out.println("Account: ");
+                    while (read.hasNextLine()) {
+                        System.out.println(i++ + ") " + read.nextLine());
+                    }
+                    read.close();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println();
+                System.out.print("Choose Account number: ");
+                int acctNum = input.nextInt();
+
+                removeAccounts("P.csv", acctNum);
+                System.out.println();
+                System.out.println("Account " + acctNum + " deleted.");
+                System.out.println();
+            }
+
+            case 2 -> {
+                Path path = Paths.get("P.csv");
+
+                try {
+
+                    Files.deleteIfExists(path);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+                System.out.println("All Player accounts deleted.");
+            }
+        }
+    }
+
+    // Method 3.1 - delete accounts base code
+    public static void removeAccounts(String filepath, int acct) {
+        File oldFile = new File(filepath);
+        File newFile = new File("temp.csv");
+
+        int line = 0;
+        String currentLine = "";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
+
+            while ((currentLine = br.readLine()) != null) {
+                line++;
+
+                if (acct != line) {
+                    output.println(currentLine);
+                }
+            }
+            output.close();
+            br.close();
+
+            oldFile.delete();
+            File file = new File(filepath);
+            newFile.renameTo(file);
+
+        } catch (IOException ex) {
+            System.out.println("Error Opening file");
+        }
+    }
+
+    // Method 4 - edit and save Player File
+    public static void editPLayerFile() {
+        Scanner input = new Scanner(System.in);
+
+        int i = 1;
+
+        try {
+            Scanner read = new Scanner(new File("P.csv")); //Change to BufferReader to just print username?
+
+            System.out.println();
+            System.out.println("Account: ");
+            while (read.hasNextLine()) {
+                System.out.println(i++ + ") " + read.nextLine());
+            }
+            read.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println();
+        System.out.print("Choose Account number: ");
+        int acctNum = input.nextInt();
+        System.out.println();
+
+        editAccounts("P.csv", acctNum);
+    }
+
+    // Method 4.1 - edit and save each line of Player File
+    public static void editAccounts(String filepath, int acct) {
+        File oldFile = new File(filepath);
+        File newFile = new File("temp.csv");
+
+        int line = 0;
+        String currentLine = "";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
+
+            while ((currentLine = br.readLine()) != null) {
+                line++;
+
+                if (acct == line) {
+                    currentLine = editLine(currentLine);
+                    System.out.println();
+                    System.out.println("Edit complete.");
+                    System.out.println();
+                }
+                output.println(currentLine);
+            }
+            output.close();
+            br.close();
+
+            oldFile.delete();
+            File file = new File(filepath);
+            newFile.renameTo(file);
+
+        } catch (IOException ex) {
+            System.out.println("Error Opening file");
+        }
+    }
+
+    // Method 4.2 - edit each element of Player File
+    public static String editLine(String currentLine) {
+        Scanner input1 = new Scanner(System.in);
+
+        String splitBy = ",";
+        String[] acctArr;
+
+        acctArr = currentLine.split(splitBy);
+
+        String user = acctArr[0];
+        String pass = acctArr[1];
+        String name = acctArr[2];
+
+        System.out.println("(1) Username: " + user);
+        System.out.println("(2) Password: " + pass);
+        System.out.println("(3) Character Name: " + name);
+        System.out.println();
+        System.out.print("Select variable to edit: ");
+
+        Scanner scan = new Scanner(System.in);
+        int choice3 = scan.nextInt();
+
+        System.out.println();
+
+        switch (choice3) {
+            case 1 -> {
+                System.out.print("Enter new Username: ");
+                String newUser = input1.nextLine();
+                currentLine = newUser + "," + pass + "," + name;
+            }
+
+            case 2 -> {
+                System.out.print("Enter new Password: ");
+                String newPass = input1.nextLine();
+                currentLine = user + "," + newPass + "," + name;
+            }
+
+            case 3 -> {
+                System.out.print("Enter new Character Name: ");
+                String newName = input1.nextLine();
+                currentLine = user + "," + pass + "," + newName;
+            }
+        }
+        return currentLine;
     }
 }

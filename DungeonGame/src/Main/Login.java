@@ -5,6 +5,7 @@ import java.io.*;
 public class Login {
 
     public static void LoginMenu() { // implement "GameLogic.clearConsole();" to make appearance better?
+        GameLogic.clearConsole();
         System.out.println("******** Login ********");
         System.out.println(" 1 - Player");
         System.out.println(" 2 - Demo-Reviewer");
@@ -39,7 +40,8 @@ public class Login {
                 }
             }
             case 2 -> {
-
+                GameLogic.startGame(name3);
+                DemoReviewer.writeReview();
             }
             case 3 -> {
                 GameLogic.clearConsole();
@@ -58,7 +60,6 @@ public class Login {
         Scanner info = new Scanner (System.in);
         String name = "";
         String name2 = "";
-        createPlayerLoginFile(name);
 
         System.out.print("Enter Username: ");
         String playUser = info.nextLine();
@@ -70,7 +71,6 @@ public class Login {
             String line = "";
             String splitBy = ",";
             String[] loginArr;
-            int i = 0;
             boolean isFound = false;
 
             while ((line = br.readLine()) != null) {
@@ -111,6 +111,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         createPlayerLoginFile(name2);
+
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         playerLoginInfo(username, password);
@@ -135,15 +136,16 @@ public class Login {
         System.out.print("Create Password: ");
         String newPassword = info.nextLine();
 
-        charName = GameLogic.nameCharacter();;
+        charName = GameLogic.nameCharacter();
+        GameLogic.clearConsole();
 
-        java.io.File playerFile = new java.io.File("P.csv");
+        File playerFile = new File("P.csv");
         try {
             if(!playerFile.exists()) {
                 System.out.println("New file created.");
                 playerFile.createNewFile();
             }
-            java.io.PrintWriter output = new java.io.PrintWriter(new FileWriter(playerFile, true));
+            PrintWriter output = new PrintWriter(new FileWriter(playerFile, true));
 
             output.println(newUsername + "," + newPassword + "," + charName);
 
@@ -170,7 +172,6 @@ public class Login {
             String line = "";
             String splitBy = ",";
             String[] loginArr;
-            int i = 0;
             boolean isFound = false;
 
             while ((line = br.readLine()) != null) {
@@ -198,7 +199,6 @@ public class Login {
                 adminLoginInfo(user, pass);
                 System.out.println();
             }
-
 
         } catch (IOException ex) {
             System.out.println("Error Opening file");
