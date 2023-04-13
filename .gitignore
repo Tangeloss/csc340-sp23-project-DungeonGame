@@ -1,5 +1,8 @@
 # Default ignored files
 /shelf/
+/workspace.xml
+.idea
 .out
 /DungeonGame/out/
+.txt
 /DungeonGame/target/
