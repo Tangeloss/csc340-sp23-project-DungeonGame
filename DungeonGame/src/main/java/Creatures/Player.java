@@ -4,8 +4,8 @@ import Main.GameLogic;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
 
-import static Main.GameLogic.language;
-import static Main.GameLogic.translator;
+import static Main.Login.language;
+import static Main.Login.translator;
 
 public class Player extends Creatures.Creature {
 

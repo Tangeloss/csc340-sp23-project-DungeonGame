@@ -6,8 +6,8 @@ import Creatures.Skeleton;
 import Dungeon.Dungeon;
 import Dungeon.Room;
 import com.deepl.api.DeepLException;
-import com.deepl.api.TextResult;
-import com.deepl.api.Translator;
+import static Main.Login.language;
+import static Main.Login.translator;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,10 +22,6 @@ public class GameLogic {
     public static int place;
     static final int NUM_ROOMS = 22;
     public static Dungeon dungeon = Dungeon.createDungeon(NUM_ROOMS);
-    public static String authKey = "";
-    public static String language = "en-US"; //default startup language is English
-
-    public static Translator translator = new Translator(authKey);
 
     //printing the main menu
     public static void printMenu(){

@@ -2,17 +2,19 @@ package Main;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
+import com.deepl.api.Translator;
 
 import java.util.*;
 import java.io.*;
 
-import static Main.GameLogic.language;
-import static Main.GameLogic.translator;
-
 public class Login {
 
+    public static String authKey = "e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx"; //e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx
+    public static String language = "en-US"; //default startup language is English
+    public static Translator translator = new Translator(authKey);
+
     public static void LoginMenu() throws DeepLException, InterruptedException {
-        //print.translator
+        translate();
         Main.GameLogic.clearConsole();
         System.out.println("******** Login ********");
         System.out.println(" 1 - Player");
@@ -32,7 +34,7 @@ public class Login {
         String name3 = "";
 
         // Menu Selections
-        switch(login) {
+        switch (login) {
             case 1 -> {
                 GameLogic.clearConsole();
                 System.out.print("Do you have an account? Yes(1) No(2): ");
@@ -65,7 +67,7 @@ public class Login {
     // Method 1- Player login in
     public static void playerLoginInfo(String username, String password) {
 
-        Scanner info = new Scanner (System.in);
+        Scanner info = new Scanner(System.in);
         String name = "";
         String name2 = "";
 
@@ -108,7 +110,7 @@ public class Login {
                 int choice = input.nextInt();
 
                 switch (choice) {
-                    case 1-> {
+                    case 1 -> {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
@@ -137,7 +139,7 @@ public class Login {
     public static String createPlayerLoginFile(String charName) {
 
         // Write formatted output to the file
-        Scanner info = new Scanner (System.in);
+        Scanner info = new Scanner(System.in);
         System.out.print("Create Username: ");
         String newUsername = info.nextLine();
 
@@ -149,7 +151,7 @@ public class Login {
 
         File playerFile = new File("P.csv");
         try {
-            if(!playerFile.exists()) {
+            if (!playerFile.exists()) {
                 System.out.println("New file created.");
                 playerFile.createNewFile();
             }
@@ -168,7 +170,7 @@ public class Login {
     // Method 5- Admin Login method
     public static void adminLoginInfo(String user, String pass) {
         //
-        Scanner info = new Scanner (System.in);
+        Scanner info = new Scanner(System.in);
 
         System.out.print("Enter Username: ");
         String adminUser = info.nextLine();
@@ -211,5 +213,35 @@ public class Login {
         } catch (IOException | DeepLException | InterruptedException ex) {
             System.out.println("Error Opening file");
         }
+    }
+
+    // Method 6 - translation menu
+    public static void printLangMenu() throws DeepLException, InterruptedException {
+        GameLogic.clearConsole();
+        GameLogic.printHeading("MENU");
+        System.out.println("Choose a Language:");
+        //printSeperator(20);
+        System.out.println("(1) EN");
+        System.out.println("(2) ES");
+        System.out.println("(3) DE");
+        System.out.println("(4) IT");
+        System.out.println("(5) KO");
+        System.out.println("(6) FR");
+
+    }
+
+    public static String translate() throws DeepLException, InterruptedException {
+        printLangMenu();
+        int input = GameLogic.readChoice("-> ", 6);
+        switch (input) {
+            case 1 -> language = "en-US";
+            case 2 -> language = "es";
+            case 3 -> language = "de";
+            case 4 -> language = "it";
+            case 5 -> language = "ko";
+            case 6 -> language = "fr";
+            default -> System.out.println("Invalid input, please try again.");
+        }
+        return language;
     }
 }

@@ -3,8 +3,8 @@ package Main;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
 
-import static Main.GameLogic.language;
-import static Main.GameLogic.translator;
+import static Main.Login.language;
+import static Main.Login.translator;
 
 import java.io.*;
 import java.nio.file.Files;
