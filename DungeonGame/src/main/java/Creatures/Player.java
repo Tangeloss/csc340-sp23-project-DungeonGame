@@ -1,6 +1,11 @@
 package Creatures;
 
 import Main.GameLogic;
+import com.deepl.api.DeepLException;
+import com.deepl.api.TextResult;
+
+import static Main.GameLogic.language;
+import static Main.GameLogic.translator;
 
 public class Player extends Creature{
 
@@ -22,15 +27,17 @@ public class Player extends Creature{
         return (int)Math.floor(Math.random()* (25 - 15 + 1) + 5);
     }
 
-    public void drinkPot(){
+    public void drinkPot() throws DeepLException, InterruptedException {
         GameLogic.clearConsole();
         if(numPotions >= 1) {
             setNumPotions(numPotions - 1);
             setHpMax();
-            System.out.println("Tastes like grandma's chicken soup mixed with a pack of Hubba Bubba.");
+            TextResult result = translator.translateText("Tastes like grandma's chicken soup mixed with a pack of Hubba Bubba.", null, language);
+            System.out.println(result.getText());
         } else {
-            System.out.println("You reach into your pack but... Looks like you'll have to rely " +
-                    "on your wit and charm for this one. (0 Potions in inventory)");
+            TextResult result1 = translator.translateText("You reach into your pack but... Looks like you'll have to rely " +
+                    "on your wit and charm for this one. (0 Potions in inventory)", null, language);
+            System.out.println(result1.getText());
         }
         GameLogic.anythingToContinue();
     }
