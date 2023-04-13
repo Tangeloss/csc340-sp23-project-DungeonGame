@@ -1,4 +1,4 @@
-package Main;
+package main.java.Main;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
@@ -6,8 +6,8 @@ import com.deepl.api.TextResult;
 import java.io.*;
 import java.util.*;
 
-import static Main.GameLogic.language;
-import static Main.GameLogic.translator;
+import static main.java.Main.GameLogic.language;
+import static main.java.Main.GameLogic.translator;
 
 public class Admin {
     public static void admin() throws IOException, DeepLException, InterruptedException { // implement "GameLogic.clearConsole();" to make appearance better?
@@ -86,7 +86,7 @@ public class Admin {
             }
         } while (choice != 4);
         GameLogic.clearConsole();
-        Login.LoginMenu();
+        main.java.Main.Login.LoginMenu();
         System.out.println(); //how to drag to bottom like craig has game play do
     }
 

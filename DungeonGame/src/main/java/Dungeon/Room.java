@@ -1,4 +1,4 @@
-package Dungeon;
+package main.java.Dungeon;
 
 public class Room {
 

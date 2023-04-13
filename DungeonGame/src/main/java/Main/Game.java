@@ -1,4 +1,4 @@
-package Main;
+package main.java.Main;
 
 import com.deepl.api.DeepLException;
 
@@ -29,7 +29,7 @@ public class Game {
     public Game() throws DeepLException, InterruptedException, IOException {
 
 
-        GameLogic.startGame();
+        GameLogic.startGame("Jeff");
         //Login.LoginMenu();
 
     }

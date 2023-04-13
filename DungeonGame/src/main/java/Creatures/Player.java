@@ -1,13 +1,14 @@
-package Creatures;
+package main.java.Creatures;
 
-import Main.GameLogic;
+import main.java.Main.GameLogic;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
+import main.java.Main.GameLogic;
 
-import static Main.GameLogic.language;
-import static Main.GameLogic.translator;
+import static main.java.Main.GameLogic.language;
+import static main.java.Main.GameLogic.translator;
 
-public class Player extends Creature{
+public class Player extends Creatures.Creature {
 
     //TODO private int gold;
     private int numPotions;
@@ -28,7 +29,7 @@ public class Player extends Creature{
     }
 
     public void drinkPot() throws DeepLException, InterruptedException {
-        GameLogic.clearConsole();
+        main.java.Main.GameLogic.clearConsole();
         if(numPotions >= 1) {
             setNumPotions(numPotions - 1);
             setHpMax();
@@ -39,7 +40,7 @@ public class Player extends Creature{
                     "on your wit and charm for this one. (0 Potions in inventory)", null, language);
             System.out.println(result1.getText());
         }
-        GameLogic.anythingToContinue();
+        main.java.Main.GameLogic.anythingToContinue();
     }
 
     public int getNumPotions() {
@@ -64,6 +65,4 @@ public class Player extends Creature{
     public int getDungeonLocation() {
         return dungeonLocation;
     }
-
-    //TODO public int getGold() & setGold()
 }

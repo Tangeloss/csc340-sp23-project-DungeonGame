@@ -1,4 +1,4 @@
-package Main;
+package main.java.Main;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
@@ -6,8 +6,8 @@ import com.deepl.api.TextResult;
 import java.util.*;
 import java.io.*;
 
-import static Main.GameLogic.language;
-import static Main.GameLogic.translator;
+import static main.java.Main.GameLogic.language;
+import static main.java.Main.GameLogic.translator;
 
 public class Login {
     public static void LoginMenu() throws IOException, DeepLException, InterruptedException { // implement "GameLogic.clearConsole();" to make appearance better?
@@ -107,7 +107,7 @@ public class Login {
             if (isFound) {
                 TextResult result2 = translator.translateText("Time to enter the world of mazes, monsters, and magic!", null, language);
                 System.out.println(result2.getText());
-                GameLogic.startGame();
+                GameLogic.startGame("Jeff");
                 System.out.println();
 
             } else {
@@ -125,7 +125,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("Jeff");
                     }
 
                     case 2 -> {
@@ -136,7 +136,7 @@ public class Login {
                         System.out.println(result5.getText());
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("Jeff");
                     }
                 }
             }
@@ -207,13 +207,11 @@ public class Login {
             read.close();
 
             if (isFound) {
-                GameLogic.usertag = "Demo";
                 TextResult result2 = translator.translateText("Time to enter the world of mazes, monsters, and magic!", null, language);
                 System.out.println(result2.getText());
                 System.out.println();
-                GameLogic.startGame();
+                GameLogic.startGame("Jeff");
                 System.out.println();
-                GameLogic.canReview();
 
             } else {
                 Scanner input = new Scanner(System.in);
@@ -230,9 +228,8 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         demoLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("Jeff");
                         System.out.println();
-                        GameLogic.canReview();
                     }
 
                     case 2 -> {
@@ -243,9 +240,8 @@ public class Login {
                         System.out.println(result5.getText());
                         System.out.println();
                         demoLoginInfo(username, password);
-                        GameLogic.startGame();
+                        GameLogic.startGame("Jeff");
                         System.out.println();
-                        GameLogic.canReview();
                     }
                 }
             }
