@@ -5,6 +5,7 @@ import java.io.*;
 public class Login {
 
     public static void LoginMenu() {
+        //print.translator
         GameLogic.clearConsole();
         System.out.println("******** Login ********");
         System.out.println(" 1 - Player");
