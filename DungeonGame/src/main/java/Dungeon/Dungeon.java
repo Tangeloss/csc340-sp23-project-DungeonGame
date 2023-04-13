@@ -1,6 +1,6 @@
-package Dungeon;
+package main.java.Dungeon;
 
-import Creatures.Player;
+import main.java.Creatures.Player;
 
 import java.util.LinkedList;
 
@@ -8,6 +8,7 @@ public class Dungeon {
 
     private static int numRooms;
     private static LinkedList<Room>[] adjList;
+    private static int[] monsterRooms = {3, 4, 8, 11, 13, 15, 17};
 
     public Dungeon(int numRooms) {
 
@@ -57,7 +58,19 @@ public class Dungeon {
             roomArray[i] = new Room(i, "Wow! Another Room!", false, false);
         }
 
-        //builds paths in the dungeon
+        //populating dungeon with monsters
+        for (int i = 0; i < monsterRooms.length; i++){
+            int monsterIndex = monsterRooms[i];
+            roomArray[monsterIndex].setMonsterHere(true);
+        }
+
+        //builds paths in the dungeon and populate with monsters
+        buildPaths(dungeon, roomArray);
+
+        return dungeon;
+    }
+
+    public static void buildPaths(Dungeon dungeon, Room roomArray[]){
         addPath(dungeon, roomArray[0], roomArray[1]);
         addPath(dungeon, roomArray[1], roomArray[2]);
         addPath(dungeon, roomArray[1], roomArray[3]);
@@ -85,20 +98,6 @@ public class Dungeon {
         addPath(dungeon, roomArray[18], roomArray[21]);
         addPath(dungeon, roomArray[19], roomArray[21]);
         addPath(dungeon, roomArray[20], roomArray[21]);
-
-        //TODO populateDungeon, taking in dungeon and list of monster rooms, return true for rooms where monsters are
-
-        return dungeon;
     }
 
-    /*
-    public static void populateDungeon(Dungeon dungeon, int[] monsterRooms){
-
-        for(int i = 0; i < monsterRooms.length; i++){
-
-
-        }
-
-    }
-    */
 }
