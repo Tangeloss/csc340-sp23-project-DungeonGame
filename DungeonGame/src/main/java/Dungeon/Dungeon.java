@@ -1,6 +1,6 @@
-package main.java.Dungeon;
+package Dungeon;
 
-import main.java.Creatures.Player;
+import Creatures.Player;
 
 import java.util.LinkedList;
 
