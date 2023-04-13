@@ -1,333 +1,247 @@
-package main.java.Main;
+package Main;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
+import com.deepl.api.Translator;
 
 import java.util.*;
 import java.io.*;
 
-import static main.java.Main.GameLogic.language;
-import static main.java.Main.GameLogic.translator;
-
 public class Login {
-    public static void LoginMenu() throws IOException, DeepLException, InterruptedException { // implement "GameLogic.clearConsole();" to make appearance better?
-        TextResult result = translator.translateText("******** Login ********", null, language);
-        System.out.println(result.getText());
-        TextResult result1 = translator.translateText(" P - Player", null, language);
-        System.out.println(result1.getText());
-        TextResult result2 = translator.translateText(" D - Demo Reviewer", null, language);
-        System.out.println(result2.getText());
-        TextResult result3 = translator.translateText(" A - Admin", null, language);
-        System.out.println(result3.getText());
-        // Add non-login view of review doc? (R - View reviews)
+
+    public static String authKey = "e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx"; //e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx
+    public static String language = "en-US"; //default startup language is English
+    public static Translator translator = new Translator(authKey);
+
+    public static void LoginMenu() throws DeepLException, InterruptedException {
+        translate();
+        Main.GameLogic.clearConsole();
+        System.out.println("******** Login ********");
+        System.out.println(" 1 - Player");
+        System.out.println(" 2 - Demo-Reviewer");
+        System.out.println(" 3 - Admin");
+        System.out.println(" 4 - View reviews");
         System.out.println("***********************");
-        TextResult result4 = translator.translateText("Choice Login Type: ", null, language);
-        System.out.println(result4.getText());
+        System.out.print("Choice Login Type: ");
 
         Scanner input = new Scanner(System.in);
-        char login = input.next().toUpperCase().charAt(0);
+        int login = input.nextInt();
 
         String playUser = "";
         String playPass = "";
-        String demoUser = "";
-        String demoPass = "";
         String adminUser = "";
         String adminPass = "";
+        String name3 = "";
 
         // Menu Selections
-        switch(login) {
-            case 'P' -> {
+        switch (login) {
+            case 1 -> {
                 GameLogic.clearConsole();
-                TextResult result5 = translator.translateText("Do you have an account? Yes(Y) No(N): ", null, language);
-                System.out.println(result5.getText());
-                char choice = input.next().toUpperCase().charAt(0);
-                if (choice == 'Y') {
+                System.out.print("Do you have an account? Yes(1) No(2): ");
+                int choice = input.nextInt();
+                if (choice == 1) {
                     Login.playerLoginInfo(playUser, playPass);
 
                 } else {
-                    Login.printPlayerLoginFile();
-                    TextResult result6 = translator.translateText("Magical spell for the Dungeon Entrance created! Let the adventure begin!", null, language);
-                    System.out.println(result6.getText());
+                    createPlayerLoginFile(name3);
+                    System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                     System.out.println();
-                    Login.playerLoginInfo(playUser, playPass);
+                    playerLoginInfo(playUser, playPass);
                 }
             }
-            case 'D' -> {
-                GameLogic.clearConsole();
-                TextResult result7 = translator.translateText("Do you have an account? Yes(Y) No(N): ", null, language);
-                System.out.println(result7.getText());
-                char choice1 = input.next().toUpperCase().charAt(0);
-                if (choice1 == 'Y') {
-                    Login.demoLoginInfo(demoUser, demoPass);
-
-                } else {
-                    Login.printDemoLoginFile();
-                    TextResult result8 = translator.translateText("Magical spell for the Dungeon Entrance created! Let the adventure begin!", null, language);
-                    System.out.println(result8.getText());
-                    System.out.println();
-                    Login.demoLoginInfo(demoUser, demoPass);
-
-                }
+            case 2 -> {
+                GameLogic.startGame(name3);
+                DemoReviewer.writeReview();
             }
-            case 'A' -> {
+            case 3 -> {
                 GameLogic.clearConsole();
-                Login.adminLoginInfo(adminUser, adminPass);
+                adminLoginInfo(adminUser, adminPass);
+            }
+            case 4 -> {
+                DemoReviewer.loadReviews();
             }
         }
 
     }
 
     // Method 1- Player login in
-    public static void playerLoginInfo(String username, String password) throws DeepLException, InterruptedException, IOException {
+    public static void playerLoginInfo(String username, String password) {
 
-        Scanner info = new Scanner (System.in);
+        Scanner info = new Scanner(System.in);
+        String name = "";
+        String name2 = "";
 
-        TextResult result = translator.translateText("Enter Username: ", null, language);
-        System.out.println(result.getText());
+        System.out.print("Enter Username: ");
         String playUser = info.nextLine();
 
-        TextResult result1 = translator.translateText("Enter Password: ", null, language);
-        System.out.println(result1.getText());
+        System.out.print("Enter Password: ");
         String playPass = info.nextLine();
 
-        try {
-            Scanner read = new Scanner(new File("P.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("P.csv"))) {
+            String line = "";
+            String splitBy = ",";
+            String[] loginArr;
             boolean isFound = false;
 
-            while (read.hasNextLine()) {
-                username = read.nextLine();
-                password = read.nextLine();
+            while ((line = br.readLine()) != null) {
+                loginArr = line.split(splitBy);
+
+                username = loginArr[0];
+                password = loginArr[1];
 
                 if (playUser.equals(username) && playPass.equals(password)) {
                     isFound = true;
                 }
+
             }
-            read.close();
+            br.close();
 
             if (isFound) {
-                TextResult result2 = translator.translateText("Time to enter the world of mazes, monsters, and magic!", null, language);
-                System.out.println(result2.getText());
-                GameLogic.startGame("Jeff");
+                System.out.println("Time to enter the world of mazes, monsters, and magic!");
+                GameLogic.startGame(name);
                 System.out.println();
 
             } else {
                 Scanner input = new Scanner(System.in);
 
                 System.out.println();
-                TextResult result3 = translator.translateText("Oh no! Your spell was not in the Great Spell-book!", null, language);
-                System.out.println(result3.getText());
-                TextResult result4 = translator.translateText("Do you want try again (1) or create a new entrance spell to start a new adventure (2)?: ", null, language);
-                System.out.println(result4.getText());
+                System.out.println("Oh no! Your spell was not in the Great Spell-book!");
+                System.out.print("Do you want try again (1) or create a new entrance spell to start a new adventure (2)?: ");
                 int choice = input.nextInt();
 
                 switch (choice) {
-                    case 1-> {
+                    case 1 -> {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame("Jeff");
+                        GameLogic.startGame(name);
                     }
 
                     case 2 -> {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
-                        printPlayerLoginFile();
-                        TextResult result5 = translator.translateText("Magical spell for the Dungeon Entrance created! Let the adventure begin!", null, language);
-                        System.out.println(result5.getText());
+                        createPlayerLoginFile(name2);
+
+                        System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
                         playerLoginInfo(username, password);
-                        GameLogic.startGame("Jeff");
+                        GameLogic.startGame(name);
                     }
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (DeepLException | InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | DeepLException | InterruptedException ex) {
+            System.out.println("Error Opening file");
         }
     }
 
-    // Method 2- Printing new Player username and password to file method
-    public static void printPlayerLoginFile() throws DeepLException, InterruptedException {
-        java.io.File playerFile = new java.io.File("P.txt");
+    // Method 2- Printing new Player username and password and to file method
+    public static String createPlayerLoginFile(String charName) {
+
+        // Write formatted output to the file
+        Scanner info = new Scanner(System.in);
+        System.out.print("Create Username: ");
+        String newUsername = info.nextLine();
+
+        System.out.print("Create Password: ");
+        String newPassword = info.nextLine();
+
+        charName = GameLogic.nameCharacter();
+        GameLogic.clearConsole();
+
+        File playerFile = new File("P.csv");
         try {
-            if(!playerFile.exists()) {
-                TextResult result = translator.translateText("New file created.", null, language);
-                System.out.println(result.getText());
+            if (!playerFile.exists()) {
+                System.out.println("New file created.");
                 playerFile.createNewFile();
             }
-            java.io.PrintWriter output = new java.io.PrintWriter(new FileWriter(playerFile, true));
+            PrintWriter output = new PrintWriter(new FileWriter(playerFile, true));
 
-            // Write formatted output to the file
-            Scanner info = new Scanner (System.in);
-            TextResult result = translator.translateText("Create Username: ", null, language);
-            System.out.println(result.getText());
-            String newUsername = info.nextLine();
-
-            TextResult result1 = translator.translateText("Create Password: ", null, language);
-            System.out.println(result1.getText());
-            String newPassword = info.nextLine();
-
-            output.println(newUsername);
-            output.println(newPassword);
+            output.println(newUsername + "," + newPassword + "," + charName);
 
             output.close();
+
         } catch (IOException ex) {
-            TextResult result2 = translator.translateText("Error Opening Output file", null, language);
-            System.out.println(result2.getText());
+            System.out.println("Error Opening Output file");
         }
-    }
-
-    // Method 3- Demo Reviewer login method
-    public static void demoLoginInfo(String username, String password) throws DeepLException, InterruptedException, IOException {
-
-        Scanner info = new Scanner (System.in);
-
-        TextResult result = translator.translateText("Enter Username: ", null, language);
-        System.out.println(result.getText());
-        String demoUser = info.nextLine();
-
-        TextResult result1 = translator.translateText("Enter Password: ", null, language);
-        System.out.println(result1.getText());
-        String demoPass = info.nextLine();
-
-        try {
-            Scanner read = new Scanner(new File("D.txt"));
-            boolean isFound = false;
-
-            while (read.hasNextLine()) {
-                username = read.nextLine();
-                password = read.nextLine();
-
-                if (demoUser.equals(username) && demoPass.equals(password)) {
-                    isFound = true;
-                }
-            }
-            read.close();
-
-            if (isFound) {
-                TextResult result2 = translator.translateText("Time to enter the world of mazes, monsters, and magic!", null, language);
-                System.out.println(result2.getText());
-                System.out.println();
-                GameLogic.startGame("Jeff");
-                System.out.println();
-
-            } else {
-                Scanner input = new Scanner(System.in);
-
-                System.out.println();
-                TextResult result3 = translator.translateText("Oh no! Your spell was not in the Great Spell-book!", null, language);
-                System.out.println(result3.getText());
-                TextResult result4 = translator.translateText("Do you want try again (1) or create a new entrance spell to start a new adventure (2)?: ", null, language);
-                System.out.println(result4.getText());
-                int choice = input.nextInt();
-
-                switch (choice) {
-                    case 1-> {
-                        GameLogic.clearConsole(); // Change clearing spot?
-                        System.out.println();
-                        demoLoginInfo(username, password);
-                        GameLogic.startGame("Jeff");
-                        System.out.println();
-                    }
-
-                    case 2 -> {
-                        GameLogic.clearConsole(); // Change clearing spot?
-                        System.out.println();
-                        printDemoLoginFile();
-                        TextResult result5 = translator.translateText("Magical spell for the Dungeon Entrance created! Let the adventure begin!", null, language);
-                        System.out.println(result5.getText());
-                        System.out.println();
-                        demoLoginInfo(username, password);
-                        GameLogic.startGame("Jeff");
-                        System.out.println();
-                    }
-                }
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (DeepLException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // Method 4- Printing new Demo reviewer username and password to file method
-    public static void printDemoLoginFile() throws DeepLException, InterruptedException {
-        java.io.File demoFile = new java.io.File("D.txt");
-        try {
-            if(!demoFile.exists()) {
-                TextResult result = translator.translateText("New file created.", null, language);
-                System.out.println(result.getText());
-                demoFile.createNewFile();
-            }
-            java.io.PrintWriter output = new java.io.PrintWriter(new FileWriter(demoFile, true));
-
-            // Write formatted output to the file
-            Scanner info = new Scanner (System.in);
-            TextResult result = translator.translateText("Create Username: ", null, language);
-            System.out.println(result.getText());
-            String newUsername = info.nextLine();
-
-            TextResult result1 = translator.translateText("Create Password: ", null, language);
-            System.out.println(result1.getText());
-            String newPassword = info.nextLine();
-
-            output.println(newUsername);
-            output.println(newPassword);
-
-            output.close();
-        } catch (IOException ex) {
-            TextResult result = translator.translateText("Error Opening Output file", null, language);
-            System.out.println(result.getText());
-        }
+        return charName;
     }
 
     // Method 5- Admin Login method
-    public static void adminLoginInfo(String username, String password) throws DeepLException, InterruptedException {
+    public static void adminLoginInfo(String user, String pass) {
         //
-        Scanner info = new Scanner (System.in);
+        Scanner info = new Scanner(System.in);
 
-        TextResult result = translator.translateText("Enter Username: ", null, language);
-        System.out.println(result.getText());
+        System.out.print("Enter Username: ");
         String adminUser = info.nextLine();
 
-        TextResult result1 = translator.translateText("Enter Password: ", null, language);
-        System.out.println(result1.getText());
+        System.out.print("Enter Password: ");
         String adminPass = info.nextLine();
 
-        try {
-            Scanner read = new Scanner(new File("A.txt"));
+        try (BufferedReader br = new BufferedReader(new FileReader("A.csv"))) {
+            String line = "";
+            String splitBy = ",";
+            String[] loginArr;
             boolean isFound = false;
 
-            while (read.hasNextLine()) {
-                username = read.nextLine();
-                password = read.nextLine();
+            while ((line = br.readLine()) != null) {
+                loginArr = line.split(splitBy);
 
-                if (adminUser.equals(username) && adminPass.equals(password)) {
+                user = loginArr[0];
+                pass = loginArr[1];
+
+                if (adminUser.equals(user) && adminPass.equals(pass)) {
                     isFound = true;
                 }
+
             }
-            read.close();
+            br.close();
 
             if (isFound) {
                 GameLogic.clearConsole(); // Change clearing spot?
-                TextResult result2 = translator.translateText("You have entered the admin's domain.", null, language);
-                System.out.println(result2.getText());
+                System.out.println("You have entered the admin's domain.");
                 System.out.println();
                 Admin.admin();
 
             } else {
                 GameLogic.clearConsole(); // Change clearing spot?
-                adminLoginInfo(username, password);
+                System.out.println("Oh no! Your spell words did not open your path! Please recite them again.");
+                adminLoginInfo(user, pass);
                 System.out.println();
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | DeepLException | InterruptedException ex) {
+            System.out.println("Error Opening file");
         }
+    }
+
+    // Method 6 - translation menu
+    public static void printLangMenu() throws DeepLException, InterruptedException {
+        GameLogic.clearConsole();
+        GameLogic.printHeading("MENU");
+        System.out.println("Choose a Language:");
+        //printSeperator(20);
+        System.out.println("(1) EN");
+        System.out.println("(2) ES");
+        System.out.println("(3) DE");
+        System.out.println("(4) IT");
+        System.out.println("(5) KO");
+        System.out.println("(6) FR");
+
+    }
+
+    public static String translate() throws DeepLException, InterruptedException {
+        printLangMenu();
+        int input = GameLogic.readChoice("-> ", 6);
+        switch (input) {
+            case 1 -> language = "en-US";
+            case 2 -> language = "es";
+            case 3 -> language = "de";
+            case 4 -> language = "it";
+            case 5 -> language = "ko";
+            case 6 -> language = "fr";
+            default -> System.out.println("Invalid input, please try again.");
+        }
+        return language;
     }
 }

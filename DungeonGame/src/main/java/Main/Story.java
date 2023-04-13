@@ -1,10 +1,10 @@
-package main.java.Main;
+package Main;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
 
-import static main.java.Main.GameLogic.language;
-import static main.java.Main.GameLogic.translator;
+import static Main.Login.language;
+import static Main.Login.translator;
 
 public class Story {
 

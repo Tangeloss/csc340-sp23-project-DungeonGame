@@ -1,13 +1,13 @@
-package main.java.Main;
+package Main;
 import Creatures.Monster;
 import Creatures.Orc;
-import main.java.Creatures.Player;
+import Creatures.Player;
 import Creatures.Skeleton;
-import main.java.Dungeon.Dungeon;
-import main.java.Dungeon.Room;
+import Dungeon.Dungeon;
+import Dungeon.Room;
 import com.deepl.api.DeepLException;
-import com.deepl.api.TextResult;
-import com.deepl.api.Translator;
+import static Main.Login.language;
+import static Main.Login.translator;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,16 +16,12 @@ import java.util.*;
 public class GameLogic {
 
     static Scanner scanner = new Scanner(System.in);
-    static main.java.Creatures.Player player;
+    static Creatures.Player player;
     public static boolean isRunning;
     //Story Elements, dungeon location
     public static int place;
     static final int NUM_ROOMS = 22;
     public static Dungeon dungeon = Dungeon.createDungeon(NUM_ROOMS);
-    public static String authKey = "";
-    public static String language = "en-US"; //default startup language is English
-
-    public static Translator translator = new Translator(authKey);
 
     //printing the main menu
     public static void printMenu(){
@@ -115,7 +111,7 @@ public class GameLogic {
         player.setDungeonLocation(place);
 
         if (player.getDungeonLocation() == NUM_ROOMS-1) { //if the player is at the final room
-            main.java.Main.Story.winScreen();
+            Story.winScreen();
             isRunning = false;
         }
     }
@@ -155,9 +151,9 @@ public class GameLogic {
         Random rn = new Random();
         int monsterChoice = rn.nextInt(2);
         if (monsterChoice == 1)
-            new main.java.Main.Combat(player, new Skeleton("Skeleton", 20));
+            new Combat(player, new Skeleton("Skeleton", 20));
         else
-            new main.java.Main.Combat(player, new Orc("Orc", 50));
+            new Combat(player, new Orc("Orc", 50));
     }
 
     public static void writeReview() {
@@ -182,7 +178,7 @@ public class GameLogic {
 
         //print title screen and story
         clearConsole();
-        main.java.Main.Story.printIntro();
+        Main.Story.printIntro();
         anythingToContinue();
 
         if(name == "")
