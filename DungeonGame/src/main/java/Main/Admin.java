@@ -257,10 +257,17 @@ public class Admin {
         String user = acctArr[0];
         String pass = acctArr[1];
         String name = acctArr[2];
+        String HP = acctArr[3];
+        String potNum = acctArr[4];
+        String room = acctArr[5];
+
 
         System.out.println("(1) Username: " + user);
         System.out.println("(2) Password: " + pass);
         System.out.println("(3) Character Name: " + name);
+        System.out.println("(4) HP Amount: " + HP);
+        System.out.println("(5) Number of Potions: " + potNum);
+        System.out.println("(6) Position in Dungeon: " + room);
         System.out.println();
         System.out.print("Select variable to edit: ");
 
@@ -273,19 +280,37 @@ public class Admin {
             case 1 -> {
                 System.out.print("Enter new Username: ");
                 String newUser = input1.nextLine();
-                currentLine = newUser + "," + pass + "," + name;
+                currentLine = newUser + "," + pass + "," + name + "," + HP + "," + potNum + "," + room;
             }
 
             case 2 -> {
                 System.out.print("Enter new Password: ");
                 String newPass = input1.nextLine();
-                currentLine = user + "," + newPass + "," + name;
+                currentLine = user + "," + newPass + "," + name + "," + HP + "," + potNum + "," + room;
             }
 
             case 3 -> {
                 System.out.print("Enter new Character Name: ");
                 String newName = input1.nextLine();
-                currentLine = user + "," + pass + "," + newName;
+                currentLine = user + "," + pass + "," + newName + "," + HP + "," + potNum + "," + room;
+            }
+
+            case 4 -> {
+                System.out.print("Enter new HP number: ");
+                String newHP = input1.nextLine();
+                currentLine = user + "," + pass + "," + name + "," + newHP + "," + potNum + "," + room;
+            }
+
+            case 5 -> {
+                System.out.print("Enter new Potion Number: ");
+                String newPotNum = input1.nextLine();
+                currentLine = user + "," + pass + "," + name + "," + HP + "," + newPotNum + "," + room;
+            }
+
+            case 6 -> {
+                System.out.print("Enter new Room Position: ");
+                String newRoom = input1.nextLine();
+                currentLine = user + "," + pass + "," + name + "," + HP + "," + potNum + "," + newRoom;
             }
         }
         return currentLine;
