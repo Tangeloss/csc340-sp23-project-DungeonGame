@@ -184,7 +184,7 @@ public class Admin {
         int i = 1;
 
         try {
-            Scanner read = new Scanner(new File("P.csv")); //Change to BufferReader to just print username?
+            Scanner read = new Scanner(new File("P.csv"));
 
             System.out.println();
             System.out.println("Account: ");

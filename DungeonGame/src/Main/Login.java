@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 public class Login {
 
-    public static void LoginMenu() { // implement "GameLogic.clearConsole();" to make appearance better?
+    public static void LoginMenu() {
         GameLogic.clearConsole();
         System.out.println("******** Login ********");
         System.out.println(" 1 - Player");
