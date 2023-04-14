@@ -5,8 +5,13 @@ import Creatures.Player;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
 
+<<<<<<< Updated upstream
 import static Main.GameLogic.language;
 import static Main.GameLogic.translator;
+=======
+import static Main.Login.language;
+import static Main.Login.translator;
+>>>>>>> Stashed changes
 
 public class Combat {
 
@@ -15,12 +20,21 @@ public class Combat {
             GameLogic.clearConsole();
             GameLogic.printHeading(monster.name + "\nHP: " + monster.hp + "/" + monster.maxHp);
             GameLogic.printHeading(player.name + "\nHP: " + player.hp + "/" + player.maxHp);
+<<<<<<< Updated upstream
             TextResult result = translator.translateText("Choose an action:", null, language);
             System.out.println(result.getText());
             GameLogic.printSeperator(20);
             TextResult result1 = translator.translateText("(1) Attack\n(2) Use a potion\n(3) Run Away\n(4) Die", null, language);
             System.out.println(result1.getText());
             int input = GameLogic.readChoice("-> ", 4);
+=======
+            TextResult result = translator.translateText("\"Choose an action:\"", null, language);
+            System.out.println(result.getText());
+            GameLogic.printSeperator(20);
+            TextResult result1 = translator.translateText("(1) Attack\n(2) Use a potion\n(3) Run Away", null, language);
+            System.out.println(result1.getText());
+            int input = GameLogic.readChoice("-> ", 3);
+>>>>>>> Stashed changes
             //react accordingly based on user input
             if (input == 1) {
                 //calculate damage and damage taken
@@ -73,7 +87,10 @@ public class Combat {
     public static void printStatus ( int damageDealt, int damageTaken, String monsterName) throws DeepLException, InterruptedException {
         GameLogic.clearConsole();
         GameLogic.printHeading("DAMAGE");
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         TextResult result = translator.translateText("You dealt " + damageDealt + " damage to the " + monsterName + ".", null, language);
         System.out.println(result.getText());
         GameLogic.printSeperator(15);

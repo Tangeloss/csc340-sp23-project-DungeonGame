@@ -9,7 +9,6 @@ import static Main.GameLogic.translator;
 
 public class Player extends Creature{
 
-    //TODO private int gold;
     private int numPotions;
     private int dungeonLocation;
     public Player(String name, int maxHp){
