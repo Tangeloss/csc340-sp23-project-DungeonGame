@@ -9,13 +9,14 @@ import static Main.Login.translator;
 
 public class Player extends Creatures.Creature {
 
-    //TODO private int gold;
     private int numPotions;
     private int dungeonLocation;
-    public Player(String name, int maxHp){
-        super(name, 100);
-    }
 
+    public Player(String name, int maxHp, int numPotions, int dungeonLocation) {
+        super(name, maxHp);
+        this.numPotions = numPotions;
+        this.dungeonLocation = dungeonLocation;
+    }
 
     @Override
     public int atk(){

@@ -181,12 +181,11 @@ public class GameLogic {
         Main.Story.printIntro();
         anythingToContinue();
 
-        if(name == "")
-            nameCharacter();
-
-
-        //create new player object with name
-        player = new Player(name, 100);
+        if(name == "") {
+            name = nameCharacter();
+            //create new player object with name
+            player = new Player(name, 100, 0, 0);
+        }
 
         //setting the game to the running condition so the game loop can continue
         isRunning = true;
