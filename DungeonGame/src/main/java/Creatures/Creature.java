@@ -13,4 +13,20 @@ public abstract class Creature {
         this.maxHp = maxHp;
         this.hp = maxHp;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
 }

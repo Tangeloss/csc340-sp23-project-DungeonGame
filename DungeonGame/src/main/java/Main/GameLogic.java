@@ -26,6 +26,7 @@ public class GameLogic {
     //printing the main menu
     public static void printMenu(){
         clearConsole();
+        System.out.println(player.getDungeonLocation());
         printHeading("MENU");
         System.out.println("Choose an action:");
         printSeperator(20);
@@ -73,6 +74,7 @@ public class GameLogic {
 
     //method to continue the game
     public static void continueJourney() throws DeepLException, InterruptedException {
+        place = player.getDungeonLocation();
         clearConsole();
         if(player.getDungeonLocation() == 0){ //if the player is in the starting room
             System.out.println("You stand at the entryway of the dank and dark dungeon. \nYou pat your pockets," +
@@ -174,19 +176,26 @@ public class GameLogic {
     }
 
     //start game
-    public static Player startGame(String name) throws DeepLException, InterruptedException {
+    public static Player startGame(String name, int currentHp, int numPotion, int dungeonLocation) throws DeepLException, InterruptedException {
 
         //print title screen and story
         clearConsole();
         Main.Story.printIntro();
         anythingToContinue();
 
-        if(name == "")
-            nameCharacter();
-
-
-        //create new player object with name
         player = new Player(name, 100);
+
+        if (dungeonLocation == -1) {
+            player.setDungeonLocation(0);
+            player.setNumPotions(0);
+            player.setName(name);
+        } else {
+            player.setDungeonLocation(dungeonLocation);
+            player.setNumPotions(numPotion);
+            player.setName(name);
+            player.setHp(currentHp);
+        }
+
 
         //setting the game to the running condition so the game loop can continue
         isRunning = true;

@@ -9,6 +9,7 @@ import java.io.*;
 
 public class Login {
 
+    static Creatures.Player loginPlayer;
     public static String authKey = "e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx"; //e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx
     public static String language = "en-US"; //default startup language is English
     public static Translator translator = new Translator(authKey);
@@ -27,11 +28,10 @@ public class Login {
         Scanner input = new Scanner(System.in);
         int login = input.nextInt();
 
-        String playUser = "";
-        String playPass = "";
+        //String playUser = "";
+        //String playPass = "";
         String adminUser = "";
         String adminPass = "";
-        String name3 = "";
 
         // Menu Selections
         switch (login) {
@@ -40,17 +40,19 @@ public class Login {
                 System.out.print("Do you have an account? Yes(1) No(2): ");
                 int choice = input.nextInt();
                 if (choice == 1) {
-                    Login.playerLoginInfo(playUser, playPass);
+                    Login.playerLoginInfo();
 
-                } else {
-                    createPlayerLoginFile(name3);
+                } else { //HERERERERERE!!!!!!!!!!!!!!!!!!!!!!!!!
+                    String charName = createPlayerLoginFile();
                     System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                     System.out.println();
-                    playerLoginInfo(playUser, playPass);
+                    loginPlayer = GameLogic.startGame(charName, 100, 0, -1);
+                    //SAVE GAME
+                    Save.saveStats("P.csv", loginPlayer);
                 }
             }
             case 2 -> {
-                GameLogic.startGame(name3);
+                GameLogic.startGame(GameLogic.nameCharacter(), 100, 0, -1);
                 DemoReviewer.writeReview();
             }
             case 3 -> {
@@ -65,11 +67,9 @@ public class Login {
     }
 
     // Method 1- Player login in
-    public static void playerLoginInfo(String username, String password) {
+    public static void playerLoginInfo() throws DeepLException, InterruptedException {
 
         Scanner info = new Scanner(System.in);
-        String name = "";
-        String name2 = "";
 
         System.out.print("Enter Username: ");
         String playUser = info.nextLine();
@@ -86,8 +86,8 @@ public class Login {
             while ((line = br.readLine()) != null) {
                 loginArr = line.split(splitBy);
 
-                username = loginArr[0];
-                password = loginArr[1];
+                String username = loginArr[0];
+                String password = loginArr[1];
 
                 if (playUser.equals(username) && playPass.equals(password)) {
                     isFound = true;
@@ -98,8 +98,19 @@ public class Login {
 
             if (isFound) {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
-                GameLogic.startGame(name);
+                String[] playStats = new String[4];
+
+                playStats = readStats(playUser);
+
+                String name = playStats[0];
+                int hp = Integer.parseInt(playStats[1]);
+                int potNum = Integer.parseInt(playStats[2]);
+                int room = Integer.parseInt(playStats[3]);
+
+                loginPlayer = GameLogic.startGame(name, hp, potNum, room);
                 System.out.println();
+                //SAVE
+                Save.saveStats("P.csv", loginPlayer);
 
             } else {
                 Scanner input = new Scanner(System.in);
@@ -113,19 +124,30 @@ public class Login {
                     case 1 -> {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
-                        playerLoginInfo(username, password);
-                        GameLogic.startGame(name);
+                        playerLoginInfo();
+                        String[] playStats = new String[4];
+                        playStats = readStats(playUser);
+
+                        String name = playStats[0];
+                        int hp = Integer.parseInt(playStats[1]);
+                        int potNum = Integer.parseInt(playStats[2]);
+                        int room = Integer.parseInt(playStats[3]);
+
+                        loginPlayer = GameLogic.startGame(name, hp, potNum, room);
+                        //SAVE
+                        Save.saveStats("P.csv", loginPlayer);
                     }
 
-                    case 2 -> {
-                        GameLogic.clearConsole(); // Change clearing spot?
+                    case 2 -> { // Wrong character info, enter new login info
+                        GameLogic.clearConsole();
                         System.out.println();
-                        createPlayerLoginFile(name2);
+                        String charName = createPlayerLoginFile();
 
                         System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                         System.out.println();
-                        playerLoginInfo(username, password);
-                        GameLogic.startGame(name);
+                        loginPlayer = GameLogic.startGame(charName, 100, 0, -1);
+                        //SAVE
+                        Save.saveStats("P.csv", loginPlayer);
                     }
                 }
             }
@@ -136,7 +158,7 @@ public class Login {
     }
 
     // Method 2- Printing new Player username and password and to file method
-    public static String createPlayerLoginFile(String charName) {
+    public static String createPlayerLoginFile() {
 
         // Write formatted output to the file
         Scanner info = new Scanner(System.in);
@@ -146,7 +168,7 @@ public class Login {
         System.out.print("Create Password: ");
         String newPassword = info.nextLine();
 
-        charName = GameLogic.nameCharacter();
+        String charName = GameLogic.nameCharacter();
         GameLogic.clearConsole();
 
         File playerFile = new File("P.csv");
@@ -157,13 +179,14 @@ public class Login {
             }
             PrintWriter output = new PrintWriter(new FileWriter(playerFile, true));
 
-            output.println(newUsername + "," + newPassword + "," + charName);
+            output.println(newUsername + "," + newPassword + "," + charName);  //
 
             output.close();
 
         } catch (IOException ex) {
             System.out.println("Error Opening Output file");
         }
+
         return charName;
     }
 
@@ -243,5 +266,35 @@ public class Login {
             default -> System.out.println("Invalid input, please try again.");
         }
         return language;
+    }
+
+    public static String[] readStats(String username) {
+        String[] playStats = new String[4];
+
+        try (BufferedReader br = new BufferedReader(new FileReader("P.csv"))) {
+            String line = "";
+            String splitBy = ",";
+            String[] loginArr;
+
+            while ((line = br.readLine()) != null) {
+                loginArr = line.split(splitBy);
+
+                String user = loginArr[0];
+
+                String name = loginArr[2];
+                String hp = loginArr[3];
+                String potNum = loginArr[4];
+                String room = loginArr[5];
+
+                if(username.equals(user)) {
+                    playStats = new String[]{name, hp, potNum, room};
+                }
+            }
+            br.close();
+
+        } catch (IOException ex) {
+            System.out.println("Error Opening file");
+        }
+        return playStats;
     }
 }
