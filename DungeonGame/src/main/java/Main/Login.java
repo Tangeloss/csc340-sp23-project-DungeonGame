@@ -123,7 +123,9 @@ public class Login {
                     case 2 -> {
                         //String charName = createCharName("P.csv", loginPlayer, playUser, playPass);
                         String charName = GameLogic.nameCharacter();
+                        Save.saveCharName("P.csv", playUser, charName);
                         loginPlayer = GameLogic.startGame(charName, 100, 0, -1);
+                        //loginPlayer = GameLogic.startGame(charName, hp, potNum, room);
                         Save.saveStats("P.csv", loginPlayer);
                     }
                 }
@@ -319,68 +321,4 @@ public class Login {
         }
         return playStats;
     }
-
-    /*
-    public static String createCharName(String filepath, Player player, String user, String pass) {
-
-        String charName = GameLogic.nameCharacter();
-        GameLogic.clearConsole();
-
-
-
-        File oldFile = new File(filepath);
-        File newFile = new File("temp.csv");
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
-            PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
-            String splitBy = ",";
-            String[] loginArr;
-            String currentLine = "";
-
-            while ((currentLine = br.readLine()) != null) {
-                loginArr = currentLine.split(splitBy);
-
-                String username = loginArr[0];
-                String password = loginArr[1];
-
-                if (user.equals(username) && pass.equals(password)) {
-                    currentLine = editName(player, currentLine);
-                }
-
-                output.println(currentLine);
-            }
-            output.close();
-            br.close();
-
-            oldFile.delete();
-            File file = new File(filepath);
-            newFile.renameTo(file);
-
-        } catch (IOException ex) {
-            System.out.println("Error Opening file");
-        }
-
-        return charName;
-    }
-
-    public static String editName(Player player, String currentLine) {
-
-        String splitBy = ",";
-        String[] statArr;
-
-        statArr = currentLine.split(splitBy);
-
-        String user = statArr[0];
-        String pass = statArr[1];
-        String name = statArr[2];
-        String HP = String.valueOf(100);
-        String potNum = String.valueOf(0);
-        String room = String.valueOf(-1);
-
-        currentLine = user + "," + pass + "," + name + "," + HP + "," + potNum + "," + room;
-
-        return currentLine;
-    }
-
-     */
 }
