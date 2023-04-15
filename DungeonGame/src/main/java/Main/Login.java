@@ -3,7 +3,7 @@ package Main;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
 import com.deepl.api.Translator;
-
+import Creatures.Player;
 import java.util.*;
 import java.io.*;
 
@@ -28,7 +28,7 @@ public class Login {
         Scanner input = new Scanner(System.in);
         int login = input.nextInt();
 
-        //String playUser = "";
+        String playUser = "";
         //String playPass = "";
         String adminUser = "";
         String adminPass = "";
@@ -67,7 +67,7 @@ public class Login {
     }
 
     // Method 1- Player login in
-    public static void playerLoginInfo() throws DeepLException, InterruptedException {
+    public static String playerLoginInfo() throws DeepLException, InterruptedException {
 
         Scanner info = new Scanner(System.in);
 
@@ -107,11 +107,26 @@ public class Login {
                 int potNum = Integer.parseInt(playStats[2]);
                 int room = Integer.parseInt(playStats[3]);
 
-                loginPlayer = GameLogic.startGame(name, hp, potNum, room);
-                System.out.println();
-                //SAVE
-                Save.saveStats("P.csv", loginPlayer);
+                System.out.println("(1) Continue with old Character");
+                System.out.println("(2) Restart with new Character");
+                System.out.print("-> ");
 
+                Scanner scan = new Scanner(System.in);
+                int action = scan.nextInt();
+
+                switch (action) {
+                    case 1 -> {
+                        loginPlayer = GameLogic.startGame(name, hp, potNum, room);
+                        Save.saveStats("P.csv", loginPlayer);
+                    }
+
+                    case 2 -> {
+                        //String charName = createCharName("P.csv", loginPlayer, playUser, playPass);
+                        String charName = GameLogic.nameCharacter();
+                        loginPlayer = GameLogic.startGame(charName, 100, 0, -1);
+                        Save.saveStats("P.csv", loginPlayer);
+                    }
+                }
             } else {
                 Scanner input = new Scanner(System.in);
 
@@ -125,6 +140,7 @@ public class Login {
                         GameLogic.clearConsole(); // Change clearing spot?
                         System.out.println();
                         playerLoginInfo();
+                        /*
                         String[] playStats = new String[4];
                         playStats = readStats(playUser);
 
@@ -134,8 +150,9 @@ public class Login {
                         int room = Integer.parseInt(playStats[3]);
 
                         loginPlayer = GameLogic.startGame(name, hp, potNum, room);
-                        //SAVE
                         Save.saveStats("P.csv", loginPlayer);
+
+                         */
                     }
 
                     case 2 -> { // Wrong character info, enter new login info
@@ -155,6 +172,7 @@ public class Login {
         } catch (IOException | DeepLException | InterruptedException ex) {
             System.out.println("Error Opening file");
         }
+        return playUser;
     }
 
     // Method 2- Printing new Player username and password and to file method
@@ -171,6 +189,10 @@ public class Login {
         String charName = GameLogic.nameCharacter();
         GameLogic.clearConsole();
 
+        String HP = String.valueOf(100);
+        String potNum = String.valueOf(0);
+        String room = String.valueOf(-1);
+
         File playerFile = new File("P.csv");
         try {
             if (!playerFile.exists()) {
@@ -179,7 +201,7 @@ public class Login {
             }
             PrintWriter output = new PrintWriter(new FileWriter(playerFile, true));
 
-            output.println(newUsername + "," + newPassword + "," + charName);  //
+            output.println(newUsername + "," + newPassword + "," + charName + "," + HP + "," + potNum + "," + room);  //
 
             output.close();
 
@@ -280,7 +302,7 @@ public class Login {
                 loginArr = line.split(splitBy);
 
                 String user = loginArr[0];
-
+                String pass = loginArr[1];
                 String name = loginArr[2];
                 String hp = loginArr[3];
                 String potNum = loginArr[4];
@@ -297,4 +319,68 @@ public class Login {
         }
         return playStats;
     }
+
+    /*
+    public static String createCharName(String filepath, Player player, String user, String pass) {
+
+        String charName = GameLogic.nameCharacter();
+        GameLogic.clearConsole();
+
+
+
+        File oldFile = new File(filepath);
+        File newFile = new File("temp.csv");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
+            String splitBy = ",";
+            String[] loginArr;
+            String currentLine = "";
+
+            while ((currentLine = br.readLine()) != null) {
+                loginArr = currentLine.split(splitBy);
+
+                String username = loginArr[0];
+                String password = loginArr[1];
+
+                if (user.equals(username) && pass.equals(password)) {
+                    currentLine = editName(player, currentLine);
+                }
+
+                output.println(currentLine);
+            }
+            output.close();
+            br.close();
+
+            oldFile.delete();
+            File file = new File(filepath);
+            newFile.renameTo(file);
+
+        } catch (IOException ex) {
+            System.out.println("Error Opening file");
+        }
+
+        return charName;
+    }
+
+    public static String editName(Player player, String currentLine) {
+
+        String splitBy = ",";
+        String[] statArr;
+
+        statArr = currentLine.split(splitBy);
+
+        String user = statArr[0];
+        String pass = statArr[1];
+        String name = statArr[2];
+        String HP = String.valueOf(100);
+        String potNum = String.valueOf(0);
+        String room = String.valueOf(-1);
+
+        currentLine = user + "," + pass + "," + name + "," + HP + "," + potNum + "," + room;
+
+        return currentLine;
+    }
+
+     */
 }

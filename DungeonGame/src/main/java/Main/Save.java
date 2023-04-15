@@ -12,18 +12,14 @@ public class Save {
             File newFile = new File("temp.csv");
             String charName = player.getName();
 
-            // int line = 0;
-            String currentLine = "";
-
-
             try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
                 PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
-                String line = "";
                 String splitBy = ",";
                 String[] loginArr;
+                String currentLine = "";
 
                 while ((currentLine = br.readLine()) != null) {
-                    loginArr = line.split(splitBy);
+                    loginArr = currentLine.split(splitBy);
 
                     String name = loginArr[2];
 
