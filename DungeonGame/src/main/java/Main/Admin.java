@@ -11,8 +11,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+
+/**
+ * Admin is allowed to do many things that a Customer or Demo-reviewer are not. They are allowed to manipulate
+ * account information from the backend and delete account information of users.
+ */
 public class Admin {
-    public static void admin() throws DeepLException, InterruptedException { // implement "GameLogic.clearConsole();" to make appearance better?
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * Admin menu, from here admin can choose to load, edit or delete account information.
+     * Also given the option ot end their current session, closing the program.
+     */
+    public static void admin() throws DeepLException, InterruptedException {
         int choice = 0;
 
         do {
@@ -56,7 +68,7 @@ public class Admin {
 
                 case 2 -> {
                     GameLogic.clearConsole();
-                    editPLayerFile();
+                    editPlayerFile();
 
                 }
 
@@ -68,10 +80,12 @@ public class Admin {
         } while (choice != 4);
         GameLogic.clearConsole();
         Login.LoginMenu();
-        System.out.println(); //how to drag to bottom like craig has game play do
+        System.out.println();
     }
 
-    // Method 1 - load player login info
+    /**
+     * Allows admin to load player information for further editing or deletion.
+     */
     public static void loadPlayerFile() {
         try {
             Scanner read = new Scanner(new File("P.csv"));
@@ -87,7 +101,9 @@ public class Admin {
     }
 
 
-    // Method 2 - load admin login info
+    /**
+     * Allows admin to load the admin's login to manipulate username or password.
+     */
     public static void loadAdminLoginFile() {
         try {
             Scanner read = new Scanner(new File("A.csv"));
@@ -102,7 +118,10 @@ public class Admin {
         }
     }
 
-    // Method 3 - delete accounts from the PlayerFile
+    /**
+     * Allows admin to delete player's accounts, forcing them to reset their progress and make a new account.
+     * Allows admin to either delete all player's accounts or characters or singular ones.
+     */
     public static void deletePlayerFile() {
         System.out.println("(1) Delete a single account");
         System.out.println("(2) Delete all accounts");
@@ -153,7 +172,10 @@ public class Admin {
         }
     }
 
-    // Method 3.1 - delete accounts base code
+    /**
+     * @param filepath takes in where the account file currently is in the local machine's memory.
+     * @param acct The account that admin wants to delete.
+     */
     public static void removeAccounts(String filepath, int acct) {
         File oldFile = new File(filepath);
         File newFile = new File("temp.csv");
@@ -183,8 +205,11 @@ public class Admin {
         }
     }
 
-    // Method 4 - edit and save Player File
-    public static void editPLayerFile() {
+    /**
+     * Allows admin to edit usernames and passwords of users. Passes the selected profile to editAccounts for
+     * further manipulation
+     */
+    public static void editPlayerFile() {
         Scanner input = new Scanner(System.in);
 
         int i = 1;
@@ -211,7 +236,12 @@ public class Admin {
         editAccounts("P.csv", acctNum);
     }
 
-    // Method 4.1 - edit and save each line of Player File
+    /**
+     * @param filepath the file name of the selected file
+     * @param acct the current account that admin would want to modify
+     *
+     * accepts the file to modify and allows admin to modify the player's login credentials
+     */
     public static void editAccounts(String filepath, int acct) {
         File oldFile = new File(filepath);
         File newFile = new File("temp.csv");
@@ -245,6 +275,11 @@ public class Admin {
         }
     }
 
+    /**
+     * @param currentLine passes the current account information that admin would like to modify. allows for
+     *                    modification of all of the user's statistics
+     * @return the modified contents and statistics of the file.
+     */
     // Method 4.2 - edit each element of Player File
     public static String editLine(String currentLine) {
         Scanner input1 = new Scanner(System.in);

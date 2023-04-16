@@ -7,13 +7,32 @@ import Creatures.Player;
 import java.util.*;
 import java.io.*;
 
+/**
+ * Login class that manages who is logging in and what they are logging in as, all methods help to identify
+ * player and user as their appropriate role.
+ */
 public class Login {
 
+    /**
+     * The player object taken back from the game in order to save data.
+     */
     static Creatures.Player loginPlayer;
-    public static String authKey = "e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx"; //e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx
+
+
+    public static String authKey = "";
     public static String language = "en-US"; //default startup language is English
     public static Translator translator = new Translator(authKey);
 
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * Allows for user to select their role in terms of the game's functions.
+     * Select player if they are a customer
+     * select Demo-Reviewer if they are a reviewer
+     * select Admin if they are an Admin
+     * select View reviews if they'd like to view the review.txt file.
+     */
     public static void LoginMenu() throws DeepLException, InterruptedException {
         translate();
         Main.GameLogic.clearConsole();
@@ -28,12 +47,9 @@ public class Login {
         Scanner input = new Scanner(System.in);
         int login = input.nextInt();
 
-        String playUser = "";
-        //String playPass = "";
         String adminUser = "";
         String adminPass = "";
 
-        // Menu Selections
         switch (login) {
             case 1 -> {
                 GameLogic.clearConsole();
@@ -42,12 +58,11 @@ public class Login {
                 if (choice == 1) {
                     Login.playerLoginInfo();
 
-                } else { //HERERERERERE!!!!!!!!!!!!!!!!!!!!!!!!!
+                } else {
                     String charName = createPlayerLoginFile();
                     System.out.println("Magical spell for the Dungeon Entrance created! Let the adventure begin!");
                     System.out.println();
                     loginPlayer = GameLogic.startGame(charName, 100, 0, -1);
-                    //SAVE GAME
                     Save.saveStats("P.csv", loginPlayer);
                 }
             }
@@ -66,7 +81,12 @@ public class Login {
 
     }
 
-    // Method 1- Player login in
+    /**
+     * @return playUser, which is the player that is currently logging in. Allows for further manipulation of their
+     * account and maintenance of identity with regards to their save file.
+     * @throws DeepLException
+     * @throws InterruptedException
+     */
     public static String playerLoginInfo() throws DeepLException, InterruptedException {
 
         Scanner info = new Scanner(System.in);
@@ -98,7 +118,7 @@ public class Login {
 
             if (isFound) {
                 System.out.println("Time to enter the world of mazes, monsters, and magic!");
-                String[] playStats = new String[4];
+                String[] playStats;
 
                 playStats = readStats(playUser);
 
@@ -121,11 +141,9 @@ public class Login {
                     }
 
                     case 2 -> {
-                        //String charName = createCharName("P.csv", loginPlayer, playUser, playPass);
                         String charName = GameLogic.nameCharacter();
                         Save.saveCharName("P.csv", playUser, charName);
                         loginPlayer = GameLogic.startGame(charName, 100, 0, -1);
-                        //loginPlayer = GameLogic.startGame(charName, hp, potNum, room);
                         Save.saveStats("P.csv", loginPlayer);
                     }
                 }
@@ -139,22 +157,9 @@ public class Login {
 
                 switch (choice) {
                     case 1 -> {
-                        GameLogic.clearConsole(); // Change clearing spot?
+                        GameLogic.clearConsole();
                         System.out.println();
                         playerLoginInfo();
-                        /*
-                        String[] playStats = new String[4];
-                        playStats = readStats(playUser);
-
-                        String name = playStats[0];
-                        int hp = Integer.parseInt(playStats[1]);
-                        int potNum = Integer.parseInt(playStats[2]);
-                        int room = Integer.parseInt(playStats[3]);
-
-                        loginPlayer = GameLogic.startGame(name, hp, potNum, room);
-                        Save.saveStats("P.csv", loginPlayer);
-
-                         */
                     }
 
                     case 2 -> { // Wrong character info, enter new login info
@@ -177,7 +182,10 @@ public class Login {
         return playUser;
     }
 
-    // Method 2- Printing new Player username and password and to file method
+    /**
+     * @return the name of the new player's character.
+     * Allows the player to create a new login file and begin the game from a fresh file.
+     */
     public static String createPlayerLoginFile() {
 
         // Write formatted output to the file
@@ -214,7 +222,13 @@ public class Login {
         return charName;
     }
 
-    // Method 5- Admin Login method
+
+    /**
+     * @param user Takes in the Admin's Username
+     * @param pass Takes in the Admin's password
+     *
+     * The passed variables are compared to user input to check if they match and are allowed to log in.
+     */
     public static void adminLoginInfo(String user, String pass) {
         //
         Scanner info = new Scanner(System.in);
@@ -245,13 +259,13 @@ public class Login {
             br.close();
 
             if (isFound) {
-                GameLogic.clearConsole(); // Change clearing spot?
+                GameLogic.clearConsole();
                 System.out.println("You have entered the admin's domain.");
                 System.out.println();
                 Admin.admin();
 
             } else {
-                GameLogic.clearConsole(); // Change clearing spot?
+                GameLogic.clearConsole();
                 System.out.println("Oh no! Your spell words did not open your path! Please recite them again.");
                 adminLoginInfo(user, pass);
                 System.out.println();
@@ -262,12 +276,17 @@ public class Login {
         }
     }
 
-    // Method 6 - translation menu
-    public static void printLangMenu() throws DeepLException, InterruptedException {
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * Allows the user to select translation language. Six languages are available: English, Spanish, German, Italian,
+     * Korean and French.
+     */
+    public static void printLangMenu(){
         GameLogic.clearConsole();
         GameLogic.printHeading("MENU");
         System.out.println("Choose a Language:");
-        //printSeperator(20);
         System.out.println("(1) EN");
         System.out.println("(2) ES");
         System.out.println("(3) DE");
@@ -277,7 +296,10 @@ public class Login {
 
     }
 
-    public static String translate() throws DeepLException, InterruptedException {
+    /**
+     * @return the selected language from the user.
+     */
+    public static String translate() {
         printLangMenu();
         int input = GameLogic.readChoice("-> ", 6);
         switch (input) {
@@ -292,6 +314,10 @@ public class Login {
         return language;
     }
 
+    /**
+     * @param username takes in the username of the current player
+     * @return completed read of all player's statistics, assigning them to an array to be printed to the file.
+     */
     public static String[] readStats(String username) {
         String[] playStats = new String[4];
 

@@ -8,6 +8,12 @@ import static Main.Login.translator;
 
 public class Story {
 
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * prints the introduction to the story of the game
+     */
     public static void printIntro() throws DeepLException, InterruptedException {
         GameLogic.clearConsole();
         GameLogic.printSeperator(30);
@@ -40,6 +46,12 @@ public class Story {
         GameLogic.printHeading("DUNGEON GAME");
     }
 
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * prints the outcome of if the player hits 0 hp
+     */
     public static void deathScreen() throws DeepLException, InterruptedException {
         GameLogic.clearConsole();
         System.out.println("                                                                                                                                           \n" +
@@ -99,6 +111,12 @@ public class Story {
         GameLogic.printHeading("DEATH");
     }
 
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * prints the outcome of if the player reaches room 21 of the dungeon.
+     */
     public static void winScreen() throws DeepLException, InterruptedException {
         GameLogic.clearConsole();
         GameLogic.printSeperator(30);
