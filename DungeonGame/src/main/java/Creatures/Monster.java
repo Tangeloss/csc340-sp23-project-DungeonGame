@@ -1,7 +1,15 @@
 package Creatures;
 
-public abstract class Monster extends Creatures.Creature {
+/**
+ * Monster comes in one of two varieties, Skeleton and Orc.
+ * By abstracting the Monster class we can generate two different subclasses of monsters with different statistics.
+ */
+public abstract class Monster extends Creature {
 
+    /**
+     * @param name passed to set the monster's name using the superclass' methods
+     * @param maxHp passed to set the monster's max hp using the superclass' methods
+     */
     public Monster(String name, int maxHp){
         super(name, maxHp);
     }
@@ -9,15 +17,4 @@ public abstract class Monster extends Creatures.Creature {
     public abstract int atk();
     public abstract int def();
 
-    /*
-    //enemy specific attack and defend statistics
-    @Override
-    public int atk() {
-        return (int)Math.floor(Math.random()* (25 - 15 + 1) + 15);
-    }
-    @Override
-    public int def() {
-        return (int)Math.floor(Math.random()* (25 - 15 + 1) + 5);
-    }
-     */
 }

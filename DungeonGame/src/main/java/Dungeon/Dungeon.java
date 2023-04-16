@@ -4,12 +4,26 @@ import Creatures.Player;
 
 import java.util.LinkedList;
 
+/**
+ * Dungeon is generated every time the game begins, even if the player is returning to a character they already
+ * started prior. Dungeon is a Graph maintained by adjacency lists, tracking where a Player can move to, and where
+ * Monster rooms need to be populated.
+ *
+ * Dungeon is made up of Room objects, which hold different identifiers to help track Player and Monster locations.
+ */
 public class Dungeon {
 
     private static int numRooms;
     private static LinkedList<Room>[] adjList;
+
+    /**
+     * list of rooms where Monsters need to be placed.
+     */
     private static int[] monsterRooms = {3, 4, 8, 11, 13, 15, 17};
 
+    /**
+     * @param numRooms passed to create that many vertices (or rooms) in the dungeon.
+     */
     public Dungeon(int numRooms) {
 
         this.numRooms = numRooms;
@@ -18,32 +32,36 @@ public class Dungeon {
             adjList[i] = new LinkedList<>();
         }
 
-        //startRoom = adjList[0].getFirst();
     }
 
+    /**
+     * @param dungeon Passed to modify the adjacency list of the dungeon's vertices
+     * @param source Room where a path wants to be drawn from
+     * @param destination Room where a path wants to be drawn to.
+     */
     public static void addPath(Dungeon dungeon, Room source, Room destination) {
 
         dungeon.adjList[source.getId()].add(destination);
 
     }
 
-    public static void print() {
-        for (int i = 0; i < numRooms; i++) {
-            if (!adjList[i].isEmpty()) {
-                System.out.print(i + " -> ");
-                for (int j = 0; j < adjList[i].size(); j++) {
-                    System.out.print(adjList[i].get(j) + " ");
-                }
-                System.out.println();
-            }
-        }
-        System.out.println();
-    }
-
+    /**
+     * @return returns the adjacency list of the dungeon, contains information about what rooms
+     * are pointing at other rooms.
+     */
     public static LinkedList<Room>[] getAdjList() {
         return (LinkedList<Room>[]) adjList;
     }
 
+    /**
+     * @param numRooms Passed to inform the number of rooms needed to place in the dungeon
+     * @return The completed dungeon for the Player to use as their map.
+     *
+     * This creates a dungeon. It first creates a number of rooms equal to the number of rooms in the dungeon.
+     * It then constructs a new dungeon, and populates an array of rooms equal to the number of rooms. From there,
+     * it uses the monsterRooms array to set the rooms monsters are in. After that, it builds paths using a
+     * static dungeon map.
+     */
     public static Dungeon createDungeon(int numRooms){
 
         //array of rooms to assign paths from room 0 to room 20
@@ -70,6 +88,10 @@ public class Dungeon {
         return dungeon;
     }
 
+    /**
+     * @param dungeon Passed to modify the adjacency list
+     * @param roomArray Builds the to and from paths of the entire dungeon using predetermined paths.
+     */
     public static void buildPaths(Dungeon dungeon, Room roomArray[]){
         addPath(dungeon, roomArray[0], roomArray[1]);
         addPath(dungeon, roomArray[1], roomArray[2]);

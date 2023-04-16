@@ -4,8 +4,20 @@ import Creatures.Monster;
 import Creatures.Player;
 import com.deepl.api.DeepLException;
 
+/**
+ * Helper class that allows for the passing of a Player and Monster object. These two objects stay inside the class
+ * until either one of them are reduced to 0 HP.
+ */
 public class Combat {
 
+    /**
+     * @param player Player object in combat
+     * @param monster Monster object in combat
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * takes in a monster and player. Most of the combat is spent here while one of the creatures is still alive.
+     */
     public Combat(Player player, Monster monster) throws DeepLException, InterruptedException {
         while (true) {
             GameLogic.clearConsole();
@@ -60,6 +72,14 @@ public class Combat {
         }
     }
 
+    /**
+     * @param damageDealt takes in the amount of damage dealt to a monster
+     * @param damageTaken takes in the amount of damage dealt to the Player
+     * @param monsterName takes in the monster's name for communicating to the user.
+     *
+     * Overloaded, allows the player to see how much damage is dealt to the player and monster when the attack action
+     * is selected in the menu
+     */
     public static void printStatus ( int damageDealt, int damageTaken, String monsterName){
         GameLogic.clearConsole();
         GameLogic.printHeading("DAMAGE");
@@ -68,6 +88,14 @@ public class Combat {
         System.out.println("The " + monsterName + " dealt " + damageTaken + " damage to you.");
         GameLogic.anythingToContinue();
     }
+
+    /**
+     * @param damageTaken takes in the amount of damage dealt to the Player.
+     * @param monsterName takes in the monster's name for communicating to the user.
+     *
+     * Overloaded, allows the Player to see how much damage is dealt to them. Used when the player selects to drink
+     * a potion.
+     */
     public static void printStatus(int damageTaken, String monsterName) {
         GameLogic.clearConsole();
         GameLogic.printHeading("DAMAGE");
@@ -75,6 +103,12 @@ public class Combat {
         GameLogic.anythingToContinue();
     }
 
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * Boolean that says if the player has died or not. Set to True if hp is less than or equal to zero. False otherwise.
+     */
     public static void playerDied() throws DeepLException, InterruptedException {
         Story.deathScreen();
         GameLogic.isRunning = false;

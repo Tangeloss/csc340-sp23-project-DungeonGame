@@ -13,19 +13,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Where the majority of the game takes place. Manages the dungeon, the player's status, and navigation throughout
+ * the dungeon. Allows the player to select directions and maintains story elements.
+ */
 public class GameLogic {
 
     static Scanner scanner = new Scanner(System.in);
     static Creatures.Player player;
+
+    /**
+     * All actions managed through this boolean. Tells the code whether or not the game needs to maintain running.
+     * Can be set to false through the player dying or choosing to save and quit.
+     */
     public static boolean isRunning;
-    //Story Elements, dungeon location
     public static int place;
     static final int NUM_ROOMS = 22;
     public static Dungeon dungeon = Dungeon.createDungeon(NUM_ROOMS);
 
-    //printing the main menu
+    /**
+     * Main menu of the game, allows Player to navigate, see their stats, or save and quit.
+     */
     public static void printMenu(){
         clearConsole();
+        System.out.println(player.getDungeonLocation());
         printHeading("MENU");
         System.out.println("Choose an action:");
         printSeperator(20);
@@ -34,6 +45,11 @@ public class GameLogic {
         System.out.println("(3) Save and Quit");
     }
 
+    /**
+     * @return if the game is running, allows the game to continue running while set to true.
+     * @throws DeepLException
+     * @throws InterruptedException
+     */
     public static boolean gameLoop() throws DeepLException, InterruptedException {
         while(isRunning){
             printMenu();
@@ -49,7 +65,11 @@ public class GameLogic {
         return isRunning;
     }
 
-    //method to get user input from console
+    /**
+     * @param prompt String prompt displayed to the player, gives status of choices
+     * @param userChoices The number of choices a user gets to make for any given prompt
+     * @return The user's choice with the displayed prompt.
+     */
     public static int readChoice(String prompt, int userChoices){
         int input = 0;
 
@@ -71,8 +91,17 @@ public class GameLogic {
         return input;
     }
 
-    //method to continue the game
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * Allows the player to continue through the dungeon. If the dungeon has a branching path, will query for left or
+     * right movement. If the dungeon has only one path it will allow for traversal forward. If the player is at the
+     * beginning, will grant them a health potion and move them to room 1. If the player is in the final room, will
+     * display the win screen and exit the game.
+     */
     public static void continueJourney() throws DeepLException, InterruptedException {
+        place = player.getDungeonLocation();
         clearConsole();
         if(player.getDungeonLocation() == 0){ //if the player is in the starting room
             System.out.println("You stand at the entryway of the dank and dark dungeon. \nYou pat your pockets," +
@@ -116,6 +145,15 @@ public class GameLogic {
         }
     }
 
+    /**
+     * @param place takes in the current room identifier, which room the character is in or moving to.
+     * @param direction which direction the character chose to go in the case of a branching path.
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * Will instantiate combat if the check for the room's identifier is True for both the player and the monster.
+     * Creates a Combat instance if the player and a monster are in the same room.
+     */
     public static void checkForCombat(int place, int direction) throws DeepLException, InterruptedException {
         if (direction == 0){
             boolean playerHere = dungeon.getAdjList()[place].get(0).isPlayerHere();
@@ -132,7 +170,10 @@ public class GameLogic {
         }
     }
 
-    //printing character info
+    /**
+     * Prints the character's information. HP and current number of health potions are supplied in an easy to read
+     * format.
+     */
     public static void characterInfo(){
         clearConsole();
         printHeading("CHARACTER INFO");
@@ -143,7 +184,13 @@ public class GameLogic {
         anythingToContinue();
     }
 
-    //creating random battle
+    /**
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * creates an instance of a battle between a player and a monster. Generates a skeleton or an orc depending
+     * on a simple coin flip algorithm. Passes the player and monster to the Combat class to resolve combat
+     */
     public static void createBattle() throws DeepLException, InterruptedException {
         clearConsole();
         printHeading("You've encountered an evil creature! You'll have to fight it!");
@@ -156,39 +203,43 @@ public class GameLogic {
             new Combat(player, new Orc("Orc", 50));
     }
 
-    public static void writeReview() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Thank you for playing! Please write your review:");
-        String review = scanner.nextLine();
-        String fileName = "review.txt";
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            fileOutputStream.write(review.getBytes());
-            fileOutputStream.close();
-            System.out.println("Your review has been saved to " + fileName);
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing the review to " + fileName);
-            e.printStackTrace();
-        }
-        scanner.close();
-    }
-
+    /**
+     * @param name takes in the player's name
+     * @param currentHp takes in the player's current hp
+     * @param numPotion takes in the player's current number of health potions
+     * @param dungeonLocation takes in the location in the dungeon of the player.
+     * @return the player object from this instance for saving to player's file.
+     * @throws DeepLException
+     * @throws InterruptedException
+     *
+     * takes in the statistics of a player. If they are a new player, the game will set them to the dungeon entrance
+     * with base statistics. If they are a returning player, it will set them to whatever the last place they
+     * saved and quit from.
+     *
+     * The dungeon will be built around the player, each instance of the dungeon is the exact same, and the player
+     * will never have to encounter the same monster again.
+     */
     //start game
-    public static Player startGame(String name) throws DeepLException, InterruptedException {
+    public static Player startGame(String name, int currentHp, int numPotion, int dungeonLocation) throws DeepLException, InterruptedException {
 
         //print title screen and story
         clearConsole();
         Main.Story.printIntro();
         anythingToContinue();
 
-        if(name == "")
-            nameCharacter();
-
-
-        //create new player object with name
         player = new Player(name, 100);
 
-        //setting the game to the running condition so the game loop can continue
+        if (dungeonLocation == -1) {
+            player.setDungeonLocation(0);
+            player.setNumPotions(0);
+            player.setName(name);
+        } else {
+            player.setDungeonLocation(dungeonLocation);
+            player.setNumPotions(numPotion);
+            player.setName(name);
+            player.setHp(currentHp);
+        }
+
         isRunning = true;
 
         //start main game loop
@@ -197,6 +248,11 @@ public class GameLogic {
         return player;
     }
 
+    /**
+     * @return the name of the character, taken from the user and given to the player object.
+     *
+     * Allows the user to name their character.
+     */
     public static String nameCharacter(){
         boolean named = false;
         String name;
@@ -220,27 +276,39 @@ public class GameLogic {
         return name;
     }
 
-    //method to clear the console
+    /**
+     * Clears the console of all text, makes for a better user experience.
+     */
     public static void clearConsole(){
         for (int i = 0; i < 100; i++)
             System.out.println();
     }
 
-    //method to print separator with length n
+
+    /**
+     * @param n taken in for the number of hyphens to print.
+     *
+     * Allows for the creation of separators around certain lines of text from the printHeading method
+     */
     public static void printSeperator(int n){
         for(int i = 0; i < n; i++)
             System.out.print("-");
         System.out.println();
     }
 
-    //Method to print a heading
+    /**
+     * @param title text to print the heading for a menu or instance in the game.
+     */
     public static void printHeading(String title){
         printSeperator(30);
         System.out.println(title);
         printSeperator(30);
     }
 
-    //method to stop the game until the user enters something
+    /**
+     * Method to stop the run of the game until a player enters a value to continue. Allows the player to read and
+     * take in information before continuing.
+     */
     public static void anythingToContinue(){
         System.out.println("\nEnter anything to continue...");
         scanner.next();
