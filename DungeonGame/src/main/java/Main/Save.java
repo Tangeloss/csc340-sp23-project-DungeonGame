@@ -1,7 +1,9 @@
 package Main;
 import Creatures.Player;
 import com.deepl.api.DeepLException;
-
+import com.deepl.api.TextResult;
+import static Main.Login.language;
+import static Main.Login.translator;
 import java.io.*;
 import java.util.Scanner;
 
@@ -37,7 +39,11 @@ public class Save {
                 newFile.renameTo(file);
 
             } catch (IOException ex) {
-                System.out.println("Error Opening file");
+                //System.out.println("Error Opening file");
+
+                TextResult result3 = translator.translateText("Error Opening file", null, language);
+                System.out.println(result3.getText());
+
             }
         }
 
@@ -92,7 +98,11 @@ public class Save {
             newFile.renameTo(file);
 
         } catch (IOException ex) {
-            System.out.println("Error Opening file");
+            //System.out.println("Error Opening file");
+
+            TextResult result3 = translator.translateText("Error Opening file", null, language);
+            System.out.println(result3.getText());
+
         }
     }
 
