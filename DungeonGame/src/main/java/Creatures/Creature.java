@@ -5,6 +5,7 @@ package Creatures;
  */
 public abstract class Creature {
 
+    //Attributes all creatures have
     public String name;
     public int hp, maxHp;
     public abstract int atk();
@@ -48,3 +49,4 @@ public abstract class Creature {
         this.hp = hp;
     }
 }
+

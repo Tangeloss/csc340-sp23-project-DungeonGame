@@ -4,8 +4,7 @@ package Creatures;
  * A variant of Monster. Skeletons are easier to hit and kill than Orcs, but they have higher attack stats,
  * making them be able to hit harder than Orcs.
  */
-public class Skeleton extends Monster {
-
+public class Skeleton extends Creatures.Monster {
 
     /**
      * @param name passed to name the skeleton "skeleton"

@@ -31,7 +31,6 @@ public class Dungeon {
         for (int i = 0; i < numRooms; i++) {
             adjList[i] = new LinkedList<>();
         }
-
     }
 
     /**
@@ -45,11 +44,28 @@ public class Dungeon {
 
     }
 
+    /*
+    public static void print() {
+        for (int i = 0; i < numRooms; i++) {
+            if (!adjList[i].isEmpty()) {
+                System.out.print(i + " -> ");
+                for (int j = 0; j < adjList[i].size(); j++) {
+                    System.out.print(adjList[i].get(j) + " ");
+                }
+                System.out.println();
+            }
+        }
+        System.out.println();
+    }
+
+     */
+
     /**
      * @return returns the adjacency list of the dungeon, contains information about what rooms
      * are pointing at other rooms.
      */
     public static LinkedList<Room>[] getAdjList() {
+
         return (LinkedList<Room>[]) adjList;
     }
 

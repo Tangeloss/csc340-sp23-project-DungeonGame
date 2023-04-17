@@ -2,10 +2,8 @@ package Main;
 
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
-
 import static Main.Login.language;
 import static Main.Login.translator;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +15,7 @@ import java.util.*;
  * account information from the backend and delete account information of users.
  */
 public class Admin {
+
     /**
      * @throws DeepLException
      * @throws InterruptedException
@@ -29,12 +28,17 @@ public class Admin {
 
         do {
             System.out.println("***********************");
-            System.out.println(" 1 - Load Account Info");
-            System.out.println(" 2 - Edit Account Info");
-            System.out.println(" 3 - Delete Account Info");
-            System.out.println(" 4 - Log out");
+            TextResult result = translator.translateText(" 1 - Load Account Info", null, language);
+            System.out.println(result.getText());
+            TextResult result1 = translator.translateText(" 2 - Edit Account Info", null, language);
+            System.out.println(result1.getText());
+            TextResult result2 = translator.translateText(" 3 - Delete Account Info", null, language);
+            System.out.println(result2.getText());
+            TextResult result3 = translator.translateText(" 4 - Log out", null, language);
+            System.out.println(result3.getText());
             System.out.println("***********************");
-            System.out.print("Select function: ");
+            TextResult result4 = translator.translateText("Select function: ", null, language);
+            System.out.print(result4.getText());
 
             Scanner input = new Scanner(System.in);
             choice = input.nextInt();
@@ -42,24 +46,32 @@ public class Admin {
             switch (choice) {
                 case 1 -> {
                     GameLogic.clearConsole();
-                    System.out.println("Choose file- ");
-                    System.out.println("(1) Player Account Info File");
-                    System.out.println("(2) Admin Account Info File");
-                    System.out.print("File: ");
+                    TextResult result5 = translator.translateText("Choose file- ", null, language);
+                    System.out.println(result5.getText());
+                    TextResult result6 = translator.translateText("(1) Player Account Info File", null, language);
+                    System.out.println(result6.getText());
+                    TextResult result7 = translator.translateText("(2) Admin Account Info File", null, language);
+                    System.out.println(result7.getText());
+                    TextResult result8 = translator.translateText("File: ", null, language);
+                    System.out.print(result8.getText());
 
                     int file = input.nextInt();
 
                     switch (file) {
                         case 1 -> {
                             System.out.println();
-                            System.out.println("File: 'P.csv'");
+                            TextResult result9 = translator.translateText("File: 'P.csv'", null, language);
+                            System.out.println(result9.getText());
+
                             loadPlayerFile();
                             System.out.println();
                         }
 
                         case 2 -> {
                             System.out.println();
-                            System.out.println("File: 'A.csv'");
+                            TextResult result10 = translator.translateText("File: 'A.csv'", null, language);
+                            System.out.println(result10.getText());
+
                             loadAdminLoginFile();
                             System.out.println();
                         }
@@ -68,7 +80,7 @@ public class Admin {
 
                 case 2 -> {
                     GameLogic.clearConsole();
-                    editPlayerFile();
+                    editPLayerFile();
 
                 }
 
@@ -100,7 +112,6 @@ public class Admin {
         }
     }
 
-
     /**
      * Allows admin to load the admin's login to manipulate username or password.
      */
@@ -122,10 +133,13 @@ public class Admin {
      * Allows admin to delete player's accounts, forcing them to reset their progress and make a new account.
      * Allows admin to either delete all player's accounts or characters or singular ones.
      */
-    public static void deletePlayerFile() {
-        System.out.println("(1) Delete a single account");
-        System.out.println("(2) Delete all accounts");
-        System.out.print("Select action: ");
+    public static void deletePlayerFile() throws DeepLException, InterruptedException {
+        TextResult result = translator.translateText("(1) Delete a single account", null, language);
+        System.out.println(result.getText());
+        TextResult result1 = translator.translateText("(2) Delete all accounts", null, language);
+        System.out.println(result1.getText());
+        TextResult result2 = translator.translateText("Select action: ", null, language);
+        System.out.print(result2.getText());
 
         Scanner input = new Scanner(System.in);
         int choice1 = input.nextInt();
@@ -137,7 +151,9 @@ public class Admin {
                     Scanner read = new Scanner(new File("P.csv"));
 
                     System.out.println();
-                    System.out.println("Account: ");
+                    TextResult result3 = translator.translateText("Account: ", null, language);
+                    System.out.println(result3.getText());
+
                     while (read.hasNextLine()) {
                         System.out.println(i++ + ") " + read.nextLine());
                     }
@@ -148,12 +164,16 @@ public class Admin {
                 }
 
                 System.out.println();
-                System.out.print("Choose Account number: ");
+                TextResult result4 = translator.translateText("Choose Account number: ", null, language);
+                System.out.print(result4.getText());
+
                 int acctNum = input.nextInt();
 
                 removeAccounts("P.csv", acctNum);
                 System.out.println();
-                System.out.println("Account " + acctNum + " deleted.");
+                TextResult result5 = translator.translateText("Account " + acctNum + " deleted.", null, language);
+                System.out.println(result5.getText());
+
                 System.out.println();
             }
 
@@ -167,7 +187,9 @@ public class Admin {
 
                     e.printStackTrace();
                 }
-                System.out.println("All Player accounts deleted.");
+                TextResult result6 = translator.translateText("All Player accounts deleted.", null, language);
+                System.out.println(result6.getText());
+
             }
         }
     }
@@ -176,7 +198,7 @@ public class Admin {
      * @param filepath takes in where the account file currently is in the local machine's memory.
      * @param acct The account that admin wants to delete.
      */
-    public static void removeAccounts(String filepath, int acct) {
+    public static void removeAccounts(String filepath, int acct) throws DeepLException, InterruptedException {
         File oldFile = new File(filepath);
         File newFile = new File("temp.csv");
 
@@ -201,7 +223,9 @@ public class Admin {
             newFile.renameTo(file);
 
         } catch (IOException ex) {
-            System.out.println("Error Opening file");
+            TextResult result = translator.translateText("Error Opening file", null, language);
+            System.out.println(result.getText());
+
         }
     }
 
@@ -209,7 +233,7 @@ public class Admin {
      * Allows admin to edit usernames and passwords of users. Passes the selected profile to editAccounts for
      * further manipulation
      */
-    public static void editPlayerFile() {
+    public static void editPLayerFile() throws DeepLException, InterruptedException {
         Scanner input = new Scanner(System.in);
 
         int i = 1;
@@ -218,7 +242,9 @@ public class Admin {
             Scanner read = new Scanner(new File("P.csv"));
 
             System.out.println();
-            System.out.println("Account: ");
+            TextResult result = translator.translateText("Account: ", null, language);
+            System.out.println(result.getText());
+
             while (read.hasNextLine()) {
                 System.out.println(i++ + ") " + read.nextLine());
             }
@@ -229,7 +255,9 @@ public class Admin {
         }
 
         System.out.println();
-        System.out.print("Choose Account number: ");
+        TextResult result = translator.translateText("Choose Account number: ", null, language);
+        System.out.print(result.getText());
+
         int acctNum = input.nextInt();
         System.out.println();
 
@@ -242,7 +270,7 @@ public class Admin {
      *
      * accepts the file to modify and allows admin to modify the player's login credentials
      */
-    public static void editAccounts(String filepath, int acct) {
+    public static void editAccounts(String filepath, int acct) throws DeepLException, InterruptedException {
         File oldFile = new File(filepath);
         File newFile = new File("temp.csv");
 
@@ -258,7 +286,9 @@ public class Admin {
                 if (acct == line) {
                     currentLine = editLine(currentLine);
                     System.out.println();
-                    System.out.println("Edit complete.");
+                    TextResult result = translator.translateText("Edit complete.", null, language);
+                    System.out.println(result.getText());
+
                     System.out.println();
                 }
                 output.println(currentLine);
@@ -271,7 +301,9 @@ public class Admin {
             newFile.renameTo(file);
 
         } catch (IOException ex) {
-            System.out.println("Error Opening file");
+            TextResult result = translator.translateText("Error Opening file", null, language);
+            System.out.println(result.getText());
+
         }
     }
 
@@ -280,8 +312,7 @@ public class Admin {
      *                    modification of all of the user's statistics
      * @return the modified contents and statistics of the file.
      */
-    // Method 4.2 - edit each element of Player File
-    public static String editLine(String currentLine) {
+    public static String editLine(String currentLine) throws DeepLException, InterruptedException {
         Scanner input1 = new Scanner(System.in);
 
         String splitBy = ",";
@@ -296,15 +327,20 @@ public class Admin {
         String potNum = acctArr[4];
         String room = acctArr[5];
 
-
-        System.out.println("(1) Username: " + user);
-        System.out.println("(2) Password: " + pass);
-        System.out.println("(3) Character Name: " + name);
-        System.out.println("(4) HP Amount: " + HP);
-        System.out.println("(5) Number of Potions: " + potNum);
-        System.out.println("(6) Position in Dungeon: " + room);
-        System.out.println();
-        System.out.print("Select variable to edit: ");
+        TextResult result = translator.translateText("(1) Username: " + user, null, language);
+        System.out.println(result.getText());
+        TextResult result1 = translator.translateText("(2) Password: " + pass, null, language);
+        System.out.println(result1.getText());
+        TextResult result2 = translator.translateText("(3) Character Name: " + name, null, language);
+        System.out.println(result2.getText());
+        TextResult result3 = translator.translateText("(4) HP Amount: " + HP, null, language);
+        System.out.println(result3.getText());
+        TextResult result4 = translator.translateText("(5) Number of Potions: " + potNum, null, language);
+        System.out.println(result4.getText());
+        TextResult result5 = translator.translateText("(6) Position in Dungeon: " + room, null, language);
+        System.out.println(result5.getText());
+        TextResult result6 = translator.translateText("Select variable to edit: ", null, language);
+        System.out.print(result6.getText());
 
         Scanner scan = new Scanner(System.in);
         int choice3 = scan.nextInt();
@@ -313,37 +349,44 @@ public class Admin {
 
         switch (choice3) {
             case 1 -> {
-                System.out.print("Enter new Username: ");
+                TextResult result7 = translator.translateText("Enter new Username: ", null, language);
+                System.out.print(result7.getText());
                 String newUser = input1.nextLine();
                 currentLine = newUser + "," + pass + "," + name + "," + HP + "," + potNum + "," + room;
             }
 
             case 2 -> {
-                System.out.print("Enter new Password: ");
+                TextResult result8 = translator.translateText("Enter new Password: ", null, language);
+                System.out.print(result8.getText());
                 String newPass = input1.nextLine();
                 currentLine = user + "," + newPass + "," + name + "," + HP + "," + potNum + "," + room;
             }
 
             case 3 -> {
-                System.out.print("Enter new Character Name: ");
+                TextResult result9 = translator.translateText("Enter new Character Name: ", null, language);
+                System.out.print(result9.getText());
                 String newName = input1.nextLine();
                 currentLine = user + "," + pass + "," + newName + "," + HP + "," + potNum + "," + room;
             }
 
             case 4 -> {
-                System.out.print("Enter new HP number: ");
+                TextResult result10 = translator.translateText("Enter new HP number: ", null, language);
+                System.out.print(result10.getText());
                 String newHP = input1.nextLine();
                 currentLine = user + "," + pass + "," + name + "," + newHP + "," + potNum + "," + room;
             }
 
             case 5 -> {
-                System.out.print("Enter new Potion Number: ");
+                TextResult result11 = translator.translateText("Enter new Potion Number: ", null, language);
+                System.out.print(result11.getText());
+
                 String newPotNum = input1.nextLine();
                 currentLine = user + "," + pass + "," + name + "," + HP + "," + newPotNum + "," + room;
             }
 
             case 6 -> {
-                System.out.print("Enter new Room Position: ");
+                TextResult result12 = translator.translateText("Enter new Room Position: ", null, language);
+                System.out.print(result12.getText());
                 String newRoom = input1.nextLine();
                 currentLine = user + "," + pass + "," + name + "," + HP + "," + potNum + "," + newRoom;
             }

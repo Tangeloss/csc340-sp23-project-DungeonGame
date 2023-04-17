@@ -1,14 +1,17 @@
 package Main;
 import Creatures.Player;
 import com.deepl.api.DeepLException;
-
+import com.deepl.api.TextResult;
+import static Main.Login.language;
+import static Main.Login.translator;
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Save class helps to save user data to external .csv files for persisting data between sessions.
  */
 public class Save {
+
     /**
      * @param filepath takes in path to save file
      * @param player takes in player object to persist player statistics, saving them to the file.
@@ -19,39 +22,40 @@ public class Save {
      */
     public static void saveStats(String filepath, Player player) throws DeepLException, InterruptedException {
 
-            File oldFile = new File(filepath);
-            File newFile = new File("temp.csv");
-            String charName = player.getName();
+        File oldFile = new File(filepath);
+        File newFile = new File("temp.csv");
+        String charName = player.getName();
 
-            try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
-                PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
-                String splitBy = ",";
-                String[] loginArr;
-                String currentLine = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            PrintWriter output = new PrintWriter(new FileWriter("temp.csv", true));
+            String splitBy = ",";
+            String[] loginArr;
+            String currentLine = "";
 
-                while ((currentLine = br.readLine()) != null) {
-                    loginArr = currentLine.split(splitBy);
+            while ((currentLine = br.readLine()) != null) {
+                loginArr = currentLine.split(splitBy);
 
-                    String name = loginArr[2];
+                String name = loginArr[2];
 
-                    if (charName.equals(name)) {
-                        currentLine = editStats(player, currentLine);
-                    }
-
-                    output.println(currentLine);
+                if (charName.equals(name)) {
+                    currentLine = editStats(player, currentLine);
                 }
-                output.close();
-                br.close();
 
-                oldFile.delete();
-                File file = new File(filepath);
-                newFile.renameTo(file);
-
-            } catch (IOException ex) {
-                System.out.println("Error Opening file");
+                output.println(currentLine);
             }
-        }
+            output.close();
+            br.close();
 
+            oldFile.delete();
+            File file = new File(filepath);
+            newFile.renameTo(file);
+
+        } catch (IOException ex) {
+            TextResult result3 = translator.translateText("Error Opening file", null, language);
+            System.out.println(result3.getText());
+
+        }
+    }
 
     /**
      * @param player takes in player object from saveStats
@@ -114,10 +118,11 @@ public class Save {
             newFile.renameTo(file);
 
         } catch (IOException ex) {
-            System.out.println("Error Opening file");
+            TextResult result3 = translator.translateText("Error Opening file", null, language);
+            System.out.println(result3.getText());
+
         }
     }
-
 
     /**
      * @param charName takes in character name from saveCharName.

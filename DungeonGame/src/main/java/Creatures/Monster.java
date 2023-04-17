@@ -4,7 +4,7 @@ package Creatures;
  * Monster comes in one of two varieties, Skeleton and Orc.
  * By abstracting the Monster class we can generate two different subclasses of monsters with different statistics.
  */
-public abstract class Monster extends Creature {
+public abstract class Monster extends Creatures.Creature {
 
     /**
      * @param name passed to set the monster's name using the superclass' methods

@@ -6,9 +6,9 @@ import Creatures.Skeleton;
 import Dungeon.Dungeon;
 import Dungeon.Room;
 import com.deepl.api.DeepLException;
+import com.deepl.api.TextResult;
 import static Main.Login.language;
 import static Main.Login.translator;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -34,15 +34,21 @@ public class GameLogic {
     /**
      * Main menu of the game, allows Player to navigate, see their stats, or save and quit.
      */
-    public static void printMenu(){
+    public static void printMenu() throws DeepLException, InterruptedException {
         clearConsole();
         System.out.println(player.getDungeonLocation());
         printHeading("MENU");
-        System.out.println("Choose an action:");
+        TextResult result = translator.translateText("Choose an action:", null, language);
+        System.out.println(result.getText());
+
         printSeperator(20);
-        System.out.println("(1) Continue on your adventure");
-        System.out.println("(2) Character Info");
-        System.out.println("(3) Save and Quit");
+        TextResult result1 = translator.translateText("(1) Continue on your adventure", null, language);
+        System.out.println(result1.getText());
+        TextResult result2 = translator.translateText("(2) Character Info", null, language);
+        System.out.println(result2.getText());
+        TextResult result3 = translator.translateText("(3) Save and Quit", null, language);
+        System.out.println(result3.getText());
+
     }
 
     /**
@@ -70,7 +76,7 @@ public class GameLogic {
      * @param userChoices The number of choices a user gets to make for any given prompt
      * @return The user's choice with the displayed prompt.
      */
-    public static int readChoice(String prompt, int userChoices){
+    public static int readChoice(String prompt, int userChoices) throws DeepLException, InterruptedException {
         int input = 0;
 
         do{
@@ -78,11 +84,13 @@ public class GameLogic {
             try{
                 input = Integer.parseInt(scanner.next());
                 if (input < 0 || input > userChoices){
-                    System.out.println("Invalid choice, please enter an integer between 1 and " + userChoices);
+                    TextResult result = translator.translateText("Invalid choice, please enter an integer between 1 and "+ userChoices, null, language);
+                    System.out.println(result.getText());
                 }
             } catch (Exception e){
                 input = -1;
-                System.out.println("Please enter an Integer!");
+                TextResult result = translator.translateText("Please enter an Integer!", null, language);
+                System.out.println(result.getText());
             }
 
 
@@ -104,20 +112,28 @@ public class GameLogic {
         place = player.getDungeonLocation();
         clearConsole();
         if(player.getDungeonLocation() == 0){ //if the player is in the starting room
-            System.out.println("You stand at the entryway of the dank and dark dungeon. \nYou pat your pockets," +
-                    " feeling the potion you decided to bring along.");
+            TextResult result = translator.translateText("You stand at the entryway of the dank and dark dungeon. \nYou pat your pockets," +
+                    " feeling the potion you decided to bring along.", null, language);
+            System.out.println(result.getText());
+
             player.setNumPotions(1); //give a new character a potion
             place = 1;
             dungeon.getAdjList()[0].element().setPlayerHere(true);
             anythingToContinue();
         } else { //the player is in room 1 - 20
             if(dungeon.getAdjList()[place].size() == 2){
-                System.out.println("In front of you are two doors, one to the left and one to the right. Which " +
-                        "direction would you like to move?");
-                System.out.println("(1) Move to the door on the left");
-                System.out.println("(2) Move to the door on the right");
+                TextResult result = translator.translateText("In front of you are two doors, one to the left and one to the right. Which " +
+                        "direction would you like to move?", null, language);
+                System.out.println(result.getText());
+                TextResult result1 = translator.translateText("(1) Move to the door on the left", null, language);
+                System.out.println(result1.getText());
+                TextResult result2 = translator.translateText("(2) Move to the door on the right", null, language);
+                System.out.println(result2.getText());
+
                 int direction = readChoice("-> ", 2);
-                System.out.println("You move into the door on your " + (direction == 1 ? "left" : "right"));
+                TextResult result3 = translator.translateText("You move into the door on your " + (direction == 1 ? "left" : "right"), null, language);
+                System.out.println(result3.getText());
+
                 if (direction == 1){
                     //This also has a problem, going to room 2 sets true to room 4 in all instances.
                     dungeon.getAdjList()[place].get(0).setPlayerHere(true);
@@ -129,7 +145,9 @@ public class GameLogic {
                     place = (dungeon.getAdjList()[place].get(1).getId());
                 }
             } else {
-                System.out.println("It looks from here there is only one way to go. You move to that room...");
+                TextResult result = translator.translateText("It looks from here there is only one way to go. You move to that room...", null, language);
+                System.out.println(result.getText());
+
                 dungeon.getAdjList()[place].get(0).setPlayerHere(true);
                 anythingToContinue();
                 checkForCombat(place, 0);
@@ -174,11 +192,14 @@ public class GameLogic {
      * Prints the character's information. HP and current number of health potions are supplied in an easy to read
      * format.
      */
-    public static void characterInfo(){
+    public static void characterInfo() throws DeepLException, InterruptedException {
         clearConsole();
         printHeading("CHARACTER INFO");
-        System.out.println(player.name + "\tHP: " + player.getHp() + "/" + player.maxHp);
-        System.out.println("Health Potions: " + player.getNumPotions());
+        TextResult result = translator.translateText(player.name + "\tHP: " + player.getHp() + "/" + player.maxHp, null, language);
+        System.out.println(result.getText());
+        TextResult result1 = translator.translateText("Health Potions: " + player.getNumPotions(), null, language);
+        System.out.println(result1.getText());
+
         printSeperator(20);
 
         anythingToContinue();
@@ -219,7 +240,6 @@ public class GameLogic {
      * The dungeon will be built around the player, each instance of the dungeon is the exact same, and the player
      * will never have to encounter the same monster again.
      */
-    //start game
     public static Player startGame(String name, int currentHp, int numPotion, int dungeonLocation) throws DeepLException, InterruptedException {
 
         //print title screen and story
@@ -240,6 +260,8 @@ public class GameLogic {
             player.setHp(currentHp);
         }
 
+
+        //setting the game to the running condition so the game loop can continue
         isRunning = true;
 
         //start main game loop
@@ -253,7 +275,7 @@ public class GameLogic {
      *
      * Allows the user to name their character.
      */
-    public static String nameCharacter(){
+    public static String nameCharacter() throws DeepLException, InterruptedException {
         boolean named = false;
         String name;
         //getting player name
@@ -266,7 +288,9 @@ public class GameLogic {
             else {
                 clearConsole();
                 printHeading("Your name is " + name + ".\nIs that correct?");
-                System.out.println("(1) Yes!\n(2) No, I want to change my name.");
+                TextResult result = translator.translateText("(1) Yes!\n(2) No, I want to change my name.", null, language);
+                System.out.println(result.getText());
+
                 int input = readChoice("-> ", 2);
                 if (input == 1)
                     named = true;
@@ -284,7 +308,6 @@ public class GameLogic {
             System.out.println();
     }
 
-
     /**
      * @param n taken in for the number of hyphens to print.
      *
@@ -299,9 +322,11 @@ public class GameLogic {
     /**
      * @param title text to print the heading for a menu or instance in the game.
      */
-    public static void printHeading(String title){
+    public static void printHeading(String title) throws DeepLException, InterruptedException {
         printSeperator(30);
-        System.out.println(title);
+        TextResult result = translator.translateText(title, null, language);
+        System.out.println(result.getText());
+
         printSeperator(30);
     }
 
@@ -309,9 +334,10 @@ public class GameLogic {
      * Method to stop the run of the game until a player enters a value to continue. Allows the player to read and
      * take in information before continuing.
      */
-    public static void anythingToContinue(){
-        System.out.println("\nEnter anything to continue...");
+    public static void anythingToContinue() throws DeepLException, InterruptedException {
+        TextResult result = translator.translateText("\nEnter anything to continue...", null, language);
+        System.out.println(result.getText());
+
         scanner.next();
     }
 }
-
