@@ -36,7 +36,6 @@ public class GameLogic {
      */
     public static void printMenu() throws DeepLException, InterruptedException {
         clearConsole();
-        System.out.println(player.getDungeonLocation());
         printHeading("MENU");
         TextResult result = translator.translateText("Choose an action:", null, language);
         System.out.println(result.getText());

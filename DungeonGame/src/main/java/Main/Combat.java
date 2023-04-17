@@ -98,7 +98,7 @@ public class Combat {
 
         GameLogic.printSeperator(15);
         TextResult result1 = translator.translateText("The " + monsterName + " dealt " + damageTaken + " damage to you.", null, language);
-        System.out.println(result1);
+        System.out.println(result1.getText());
         GameLogic.anythingToContinue();
     }
 
