@@ -8,7 +8,7 @@ package Dungeon;
  */
 public class Room {
 
-    private int id;
+    private int id; //place ID, stored when saving game, each room object has a different numerical id.
     private String description;
     private boolean playerHere;
     private boolean monsterHere;
@@ -63,4 +63,21 @@ public class Room {
     public int getId() {
         return id;
     }
+
+    public String getDescription(){
+        return description;
+    }
+
+    /*
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", playerHere=" + playerHere +
+                ", monsterHere=" + monsterHere +
+                '}';
+    }
+
+     */
 }

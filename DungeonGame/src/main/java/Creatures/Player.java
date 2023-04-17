@@ -3,14 +3,13 @@ package Creatures;
 import Main.GameLogic;
 import com.deepl.api.DeepLException;
 import com.deepl.api.TextResult;
-
 import static Main.Login.language;
 import static Main.Login.translator;
 
 /**
  * Player is the creature the user controls, has a lot more methods to help track status and location
  */
-public class Player extends Creature {
+public class Player extends Creatures.Creature {
 
     private int numPotions;
     private int dungeonLocation;
@@ -67,6 +66,7 @@ public class Player extends Creature {
      * @return returns number of potions currently in the player's inventory
      */
     public int getNumPotions() {
+
         return numPotions;
     }
 
@@ -74,6 +74,7 @@ public class Player extends Creature {
      * @param numPotions sets the number of potions available in the player's inventory
      */
     public void setNumPotions(int numPotions) {
+
         this.numPotions = numPotions;
     }
 
@@ -81,6 +82,7 @@ public class Player extends Creature {
      * @return returns the amount of hp the Player is currently at
      */
     public int getHp() {
+
         return hp;
     }
 
@@ -88,6 +90,7 @@ public class Player extends Creature {
      * sets the maximum hp of a Player
      */
     public void setHpMax() {
+
         this.hp = maxHp;
     }
 
@@ -95,6 +98,7 @@ public class Player extends Creature {
      * @param dungeonLocation passed to change where the player is in the dungeon at any given point.
      */
     public void setDungeonLocation(int dungeonLocation){
+
         this.dungeonLocation = dungeonLocation;
     }
 
@@ -103,6 +107,7 @@ public class Player extends Creature {
      * Rooms tracked by that value can further inform conditionals.
      */
     public int getDungeonLocation() {
+
         return dungeonLocation;
     }
 }

@@ -4,8 +4,7 @@ package Creatures;
  * One of two variants of Monsters. Orc possesses higher defense but lower attack. Harder to get through than
  * the skeleton.
  */
-public class Orc extends Monster {
-
+public class Orc extends Creatures.Monster {
 
     /**
      * @param name Names the creature an Orc
