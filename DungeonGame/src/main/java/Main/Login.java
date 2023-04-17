@@ -17,7 +17,7 @@ public class Login {
      * The player object taken back from the game in order to save data.
      */
     static Creatures.Player loginPlayer;
-    public static String authKey = "e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx"; //e6f59a4c-7dc6-d0a5-c864-765876c0b9a0:fx
+    public static String authKey = "";
     public static String language = "en-US"; //default startup language is English
     public static Translator translator = new Translator(authKey);
 
